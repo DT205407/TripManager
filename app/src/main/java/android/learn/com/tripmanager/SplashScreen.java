@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.app.Activity;
 import android.os.Handler;
+import android.view.Window;
+import android.webkit.ConsoleMessage;
+
+import java.io.Console;
 
 public class SplashScreen extends AppCompatActivity {
 
@@ -15,6 +19,10 @@ public class SplashScreen extends AppCompatActivity {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle icicle) {
+        try{getSupportActionBar().hide();}
+        catch (NullPointerException e){
+
+            }
         super.onCreate(icicle);
         setContentView(R.layout.activity_splash_screen);
 
