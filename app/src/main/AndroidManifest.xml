@@ -19,12 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WelcomePage" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <categeory android:name="android.intent.categeory.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+        <activity android:name=".WelcomePage" />
         <activity
             android:name=".SignInActivity"
             android:label="@string/title_activity_login" />
