@@ -22,7 +22,7 @@ public class SplashScreen extends AppCompatActivity {
         try{getSupportActionBar().hide();}
         catch (NullPointerException e){
 
-            }
+        }
         super.onCreate(icicle);
         setContentView(R.layout.activity_splash_screen);
 
