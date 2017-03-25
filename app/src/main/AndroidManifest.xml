@@ -12,10 +12,11 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -24,10 +25,16 @@
             android:name=".SignInActivity"
             android:label="@string/title_activity_login" />
         <activity android:name=".SignUp" />
-        <activity android:name=".HomePage" />
         <activity android:name=".CreateTrip" />
-        <activity android:name=".MyTrips" />
-        <activity android:name=".TripDetails"></activity>
+        <activity android:name=".MyPastTrips" />
+        <activity
+            android:name=".TripDetails"
+            android:label="@string/title_activity_trip_details"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity
+            android:name=".HomePage"
+            android:label="@string/title_activity_home_page"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>
