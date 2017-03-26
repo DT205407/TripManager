@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TabHost;
 import android.widget.TextView;
 import java.util.Arrays;
 import java.util.List;
@@ -54,6 +55,7 @@ public class TripDetails extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         ActionBar actionbar = getSupportActionBar();
         actionbar.setTitle(tempTrip.name);
 
@@ -77,8 +79,9 @@ public class TripDetails extends AppCompatActivity {
             }
         });
 
+        //this is to set Trip detail tab as default view
+        mViewPager.setCurrentItem(1,false);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

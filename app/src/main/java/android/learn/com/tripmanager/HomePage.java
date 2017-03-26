@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -43,8 +44,9 @@ public class HomePage extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+
+                Intent createNewTrip=new Intent(view.getContext(),CreateTrip.class);
+                startActivity(createNewTrip);
             }
         });
 
@@ -74,6 +76,7 @@ public class HomePage extends AppCompatActivity
         });
 
     }
+
 
     @Override
     public void onBackPressed() {
