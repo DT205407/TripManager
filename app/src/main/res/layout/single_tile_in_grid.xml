@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/tileid"
-        android:layout_width="150dp"
-        android:layout_height="100dp"
+    <!-- place this layout anywhere and the imageview and textview will follow. -->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:background="@drawable/default_image"
-        android:text="Hello World"
-        android:gravity="center"
-        android:textColor="#FFFFFF"
-        />
+        android:layout_centerVertical="true" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="150dp"
+            android:layout_height="80dp"
+            android:src="@drawable/default_image" />
+
+        <TextView
+            android:id="@+id/tileidtext"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageView1"
+            android:gravity="center_horizontal"
+            android:textColor="@color/com_facebook_blue"
+            android:text="Hello World" />
+
+
+    </RelativeLayout>
 
 </RelativeLayout>

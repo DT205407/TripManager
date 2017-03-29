@@ -129,7 +129,7 @@ public class MyPastTrips extends AppCompatActivity {
         class TileHolder{
             TextView tile;
             public TileHolder(View view){
-                tile=(TextView) view.findViewById(R.id.tileid);
+                tile=(TextView) view.findViewById(R.id.tileidtext);
 
             }
         }

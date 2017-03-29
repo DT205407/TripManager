@@ -1,5 +1,6 @@
 package android.learn.com.tripmanager;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,8 +12,8 @@ import java.util.List;
  */
 
 enum Mode { bike ,car, train, plane};
-
-public class Trip {
+@SuppressWarnings("serial")
+public class Trip implements Serializable{
     public int id;
     public String name;
     public String source;
@@ -24,6 +25,19 @@ public class Trip {
     public List<String> itenary;
     public List<String> checklist;
 
+    public Trip(int id, String name, String source, String destination, Date startdate, Date enddate, String description, Mode mode) {
+        this.id = id;
+        this.name = name;
+        this.source = source;
+        this.destination = destination;
+        this.startdate = startdate;
+        this.enddate = enddate;
+        this.description = description;
+        this.mode = mode;
+        this.itenary=new ArrayList<String>();
+        this.checklist=new ArrayList<String>();
+    }
+
     static Date formatDate(String strdate)
     {
         Date date=new Date();
@@ -32,25 +46,31 @@ public class Trip {
         }
         catch (ParseException e) {
 
+
         }
         return date;
     }
 
+    static String datetostring(Date date)
+    {
+        return new SimpleDateFormat("mm/dd/yyyy").format(date);
+    }
+
     public Trip(){
         this.id=0;
-        this.name=null;
-        this.source=null;
-        this.destination=null;
+        this.name="";
+        this.source="";
+        this.destination="";
         this.startdate=null;
         this.enddate=null;
-        this.description=null;
-        this.mode=null;
-        this.itenary=null;
-        this.checklist=null;
+        this.description="";
+        this.mode=Mode.car;
+        this.itenary=new ArrayList<String>();
+        this.checklist=new ArrayList<String>();
     }
 
 
-    public Trip(int id,String name, String source, String destination, Date startdate, Date enddate, String description, Mode mode, List<String>  itenary, List<String> checklist) {
+    public Trip(int id,String name, String source, String destination, Date startdate, Date enddate, String description, Mode mode, ArrayList<String>  itenary, ArrayList<String> checklist) {
         this.id=id;
         this.name = name;
         this.source = source;
@@ -59,8 +79,20 @@ public class Trip {
         this.enddate = enddate;
         this.description = description;
         this.mode = mode;
-        this.itenary = itenary;
-        this.checklist = checklist;
+        if (itenary==null){
+            this.itenary=new ArrayList<String>();
+        }
+        else{
+            this.itenary = itenary;
+        }
+
+        if (checklist==null){
+            this.checklist=new ArrayList<String>();
+        }
+        else{
+            this.checklist = checklist;
+        }
+
     }
 
 

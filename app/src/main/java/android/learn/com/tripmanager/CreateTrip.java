@@ -1,54 +1,57 @@
 package android.learn.com.tripmanager;
 
-
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import java.util.Calendar;
 
-
 public class CreateTrip extends AppCompatActivity {
-
-    private EditText startdate,enddate;
+    private EditText startdate,enddate,temp;
     private int year,month,day;
+    Trip tempTrip=new Trip();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_trip);
-        //this is to displat date picker
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+
         startdatelistener();
         enddatelistener();
 
-
     }
-
-
 
     //this is button click action
     public void onAddTripClick(View view)
     {
+        tempTrip.name=((EditText) findViewById(R.id.tripName)).getText().toString();
+        tempTrip.source=((EditText) findViewById(R.id.sourcecity)).getText().toString();
+        tempTrip.destination=((EditText) findViewById(R.id.desinationcity)).getText().toString();
+        tempTrip.description=((EditText) findViewById(R.id.descriptionvalue)).getText().toString();
+        //tempTrip.mode= ((Spinner)findViewById(R.id.travelmode));
+        tempTrip.mode=Mode.car;
+        tempTrip.startdate=Trip.formatDate(((EditText) findViewById(R.id.startdate)).getText().toString());
+        tempTrip.enddate=Trip.formatDate(((EditText) findViewById(R.id.enddate)).getText().toString());
+
         Intent myTrips=new Intent(this,HomePage.class);
+        myTrips.putExtra("newTrip",tempTrip);
         startActivity(myTrips);
+
     }
 
-
-/*  //use this function to display date
-    public void setdate(EditText date){
-        Calendar datetoday=Calendar.getInstance();
-        year=datetoday.get(Calendar.YEAR);
-        month= datetoday.get(Calendar.MONTH);
-        day=datetoday.get(Calendar.DAY_OF_MONTH);
-
-        date.setText(new StringBuilder().append(month + 1)
-                .append("-").append(day).append("-").append(year)
-                .append(" "));
-
-    }*/
 
     public void startdatelistener() {
 
@@ -137,4 +140,3 @@ public class CreateTrip extends AppCompatActivity {
     }
 
 }
-

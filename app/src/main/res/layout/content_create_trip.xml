@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+    tools:context="android.learn.com.tripmanager.CreateTrip"
+    tools:showIn="@layout/activity_create_trip">
+
+
+
+        <ImageButton
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            android:src="@drawable/backtn" />
+
+        <TextView
+            android:id="@+id/TextViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/addnewtripheading"
+            android:textSize="10pt"
+            android:textStyle="bold" />
+
+
+
+
+        <EditText
+            android:id="@+id/tripName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/tripname"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/sourcecity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/sourcecity"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/desinationcity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/destinationcity"
+            android:inputType="textPersonName"/>
+
+        <EditText
+            android:id="@+id/startdate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:hint="@string/startdate"
+            android:inputType="date" />
+
+        <EditText
+            android:id="@+id/enddate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:hint="@string/enddate"
+            android:inputType="date" />
+
+        <TextView
+            android:id="@+id/desciptionheading"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="@string/description"
+            android:textSize="8pt"/>
+
+        <EditText
+            android:id="@+id/descriptionvalue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:lines="5" />
+
+
+
+            <TextView
+                android:id="@+id/mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:text="@string/mode"
+                android:textSize="8pt" />
+
+            <Spinner
+                android:id="@+id/travelmode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/modelist"
+                android:paddingLeft="75dp"
+                android:paddingStart="75dp" />
+
+
+
+            <TextView
+                android:id="@+id/tripimage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tripimage"
+                android:textSize="8pt" />
+
+            <ImageButton
+                android:id="@+id/tripImagebutton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_margin="10dp"
+
+                android:scaleType="fitCenter"
+                android:src="@drawable/camera" />
+
+
+
+            <Button
+                android:id="@+id/addnewtriptn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:onClick="onAddTripClick"
+                android:layout_marginTop="100dp"
+                android:text="@string/addtripbutton"
+                android:layout_centerHorizontal="true"
+                android:textAlignment="center" />
+
+</android.support.constraint.ConstraintLayout>
