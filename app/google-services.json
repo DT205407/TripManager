@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "317026254624",
+    "project_id": "firebase-trip-manager"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:317026254624:android:875166b8cf56ba01",
+        "android_client_info": {
+          "package_name": "android.learn.com.tripmanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "317026254624-h3k4fahph3e5f0o2bh2g8tgtrkqmhiht.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "android.learn.com.tripmanager",
+            "certificate_hash": "d39611a978104b2c3b08e7cc2d7e546b191e24df"
+          }
+        },
+        {
+          "client_id": "317026254624-g0vhqn3m3jsm1vd4gq9agh95j5vvnljk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8r0cIDL4w6Zh_9zOPFywzPfMFogM8CEQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
