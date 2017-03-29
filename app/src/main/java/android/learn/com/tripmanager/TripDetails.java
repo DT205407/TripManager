@@ -36,6 +36,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 //Test commit
+
 public class TripDetails extends AppCompatActivity {
 
     /**
