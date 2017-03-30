@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import studios.codelight.smartloginlibrary.SmartCustomLoginListener;
 import studios.codelight.smartloginlibrary.SmartLoginBuilder;
@@ -29,6 +30,9 @@ public class SignInActivity extends AppCompatActivity  {
         public boolean customSignup(SmartUser smartUser) {
             //do something with smartUser
             if(SUCCESS){
+                //startActivity(new Intent(getBaseContext(),SignInActivity.class));
+                startActivity(new Intent(getBaseContext(),SignInActivity.class));
+                Toast.makeText(SignInActivity.this, "Succesfully Created Account!", Toast.LENGTH_SHORT).show();
                 return true;
             } else {
                 return false;
@@ -73,6 +77,7 @@ public class SignInActivity extends AppCompatActivity  {
             SmartGoogleUser user;
             try {
                 user = data.getParcelableExtra(SmartLoginConfig.USER);
+                Toast.makeText(this, "Succesfully Logged In!", Toast.LENGTH_SHORT).show();
                 //use this user object as per your requirement
                 homepageIntent = new Intent(this,HomePage.class);
                 startActivity(homepageIntent);
@@ -83,6 +88,7 @@ public class SignInActivity extends AppCompatActivity  {
         }else if(resultCode == SmartLoginConfig.CUSTOM_LOGIN_REQUEST){
             SmartUser user = data.getParcelableExtra(SmartLoginConfig.USER);
             //use this user object as per your requirement
+            Toast.makeText(this, "Succesfully Logged In!", Toast.LENGTH_SHORT).show();
             homepageIntent = new Intent(this,HomePage.class);
             startActivity(homepageIntent);
 
