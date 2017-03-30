@@ -111,7 +111,6 @@ public class CreateTrip extends AppCompatActivity {
                 int mYear = c.get(Calendar.YEAR);
                 int mMonth = c.get(Calendar.MONTH);
                 int mDay = c.get(Calendar.DAY_OF_MONTH);
-                System.out.println("the selected " + mDay);
                 DatePickerDialog dialog = new DatePickerDialog(CreateTrip.this,
                         new mEndDateSetListener(), mYear, mMonth, mDay);
                 dialog.show();

@@ -29,13 +29,13 @@
 
     <string name="bus">Bus</string>
     <string name="plane">Plane</string>
-    <string name="road">Road</string>
+    <string name="car">Car</string>
     <string name="title_activity_trip_details">TripDetails</string>
     <string name="action_settings_1">Maps</string>
     <string name="action_settings_2">Alerts</string>
     <string name="action_settings_3">Friends</string>
 
-    <string name="tab1">Itenary</string>
+    <string name="tab1">Itinerary</string>
     <string name="tab2">Details</string>
     <string name="tab3">Checklist</string>
     <string name="title_activity_home_page">HomePage</string>

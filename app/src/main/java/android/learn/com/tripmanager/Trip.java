@@ -22,7 +22,7 @@ public class Trip implements Serializable{
     public Date enddate;
     public String description;
     public Mode mode;
-    public List<String> itenary;
+    public List<String> itinerary;
     public List<String> checklist;
 
     public Trip(int id, String name, String source, String destination, Date startdate, Date enddate, String description, Mode mode) {
@@ -34,7 +34,7 @@ public class Trip implements Serializable{
         this.enddate = enddate;
         this.description = description;
         this.mode = mode;
-        this.itenary=new ArrayList<String>();
+        this.itinerary=new ArrayList<String>();
         this.checklist=new ArrayList<String>();
     }
 
@@ -65,12 +65,12 @@ public class Trip implements Serializable{
         this.enddate=null;
         this.description="";
         this.mode=Mode.car;
-        this.itenary=new ArrayList<String>();
+        this.itinerary=new ArrayList<String>();
         this.checklist=new ArrayList<String>();
     }
 
 
-    public Trip(int id,String name, String source, String destination, Date startdate, Date enddate, String description, Mode mode, ArrayList<String>  itenary, ArrayList<String> checklist) {
+    public Trip(int id,String name, String source, String destination, Date startdate, Date enddate, String description, Mode mode, ArrayList<String>  itinerary, ArrayList<String> checklist) {
         this.id=id;
         this.name = name;
         this.source = source;
@@ -79,11 +79,11 @@ public class Trip implements Serializable{
         this.enddate = enddate;
         this.description = description;
         this.mode = mode;
-        if (itenary==null){
-            this.itenary=new ArrayList<String>();
+        if (itinerary==null){
+            this.itinerary=new ArrayList<String>();
         }
         else{
-            this.itenary = itenary;
+            this.itinerary = itinerary;
         }
 
         if (checklist==null){

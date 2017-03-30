@@ -72,7 +72,7 @@ public class HomePage extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        getSupportActionBar().setTitle("TM");
+        getSupportActionBar().setTitle("Upcoming Trips");
         //test comment
 
 
