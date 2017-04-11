@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import studios.codelight.smartloginlibrary.SmartCustomLoginListener;
@@ -54,9 +56,8 @@ public class SignInActivity extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         // Set up the login form.
-
-
         SmartLoginBuilder loginBuilder = new SmartLoginBuilder();
 
         Intent intent = loginBuilder.with(this)
@@ -66,7 +67,10 @@ public class SignInActivity extends AppCompatActivity  {
                 .build();
         startActivityForResult(intent, SmartLoginConfig.LOGIN_REQUEST);
 
+        //hides keyboard
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
+
 
 
     @Override
@@ -91,6 +95,7 @@ public class SignInActivity extends AppCompatActivity  {
             Toast.makeText(this, "Succesfully Logged In!", Toast.LENGTH_SHORT).show();
             homepageIntent = new Intent(this,HomePage.class);
             startActivity(homepageIntent);
+
 
         }else if(resultCode == RESULT_CANCELED){
             //Login Failed

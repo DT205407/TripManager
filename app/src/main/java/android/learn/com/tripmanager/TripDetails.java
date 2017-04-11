@@ -67,11 +67,13 @@ public class TripDetails extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Intent i = getIntent();
 
-        tempTrip=(Trip) i.getSerializableExtra("Trip");
+        //tempTrip=(Trip) i.getSerializableExtra("Trip");
+        tempTrip= ((DataAdapterTrips) this.getApplication()).getTrip(i.getIntExtra("TripId",0));
         //tempTrip.checklist.add("Charger");
         //tempTrip.checklist.add("Torch");
         //tempTrip.checklist.add("Calculator");
@@ -171,7 +173,8 @@ public class TripDetails extends AppCompatActivity {
             //Intent i = this.getActivity().getIntent();
             //List<String> temp= Arrays.asList("element1","element2","element3");
             List<String> temp= new ArrayList<String>();
-            Trip trip=(Trip) getArguments().getSerializable("Trip");
+            //Trip trip=(Trip) getArguments().getSerializable("Trip");
+            Trip trip=((DataAdapterTrips) getActivity().getApplication()).getTrips().get(getArguments().getInt("TripId"));
 
 
             //temp.add((String) i.getSerializableExtra("TripName"));

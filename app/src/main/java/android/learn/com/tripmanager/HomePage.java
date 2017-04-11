@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -33,6 +34,7 @@ public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     ArrayList<Trip> upcomingtrips=new ArrayList<Trip>();
+
     Trip tempTrip=new Trip();
     GridView gridview;
     Intent tempIntent;
@@ -43,6 +45,20 @@ public class HomePage extends AppCompatActivity
         setContentView(R.layout.activity_home_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        if(upcomingtrips.isEmpty())
+        {
+            upcomingtrips=((DataAdapterTrips) this.getApplication()).getTrips();
+            Log.e("Data","Data appended");
+        }
+        else
+        {
+            Log.e("Data","Data Not appended");
+        }
+
+
+
+        /*
         if((tempTrip=(Trip)this.getIntent().getSerializableExtra("newTrip"))!=null){
             upcomingtrips.add(tempTrip);
             Log.e("Data","Data Inserted");
@@ -51,6 +67,7 @@ public class HomePage extends AppCompatActivity
             Log.e("Data","Data Not Inserted");
         }
 
+        */
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +100,8 @@ public class HomePage extends AppCompatActivity
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 tempIntent=new Intent(HomePage.this,TripDetails.class);
-                tempIntent.putExtra("Trip",upcomingtrips.get(position));
+                tempIntent.putExtra("TripId",position);
+                //tempIntent.putExtra("Trip",upcomingtrips.get(position));
                 tempIntent.putExtra("TripName",upcomingtrips.get(position).name);
                 HomePage.this.startActivity(tempIntent);
 
@@ -108,13 +126,11 @@ public class HomePage extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         return true;
     }
 
@@ -123,9 +139,14 @@ public class HomePage extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Intent tempIntent;
 
         if (id == R.id.contacts) {
-            // Handle the camera action
+
+            Log.e("Option", "onOptionsItemSelected: contacts selected ");
+            tempIntent = new Intent(this, Contacts.class);
+            startActivity(tempIntent);
+
         } else if (id == R.id.stats) {
 
         } else if (id == R.id.pastTrips) {
@@ -135,6 +156,10 @@ public class HomePage extends AppCompatActivity
         } else if (id == R.id.about) {
 
         } else if (id == R.id.logout) {
+
+            Log.e("Option", "onOptionsItemSelected: Logout selected ");
+            tempIntent= new Intent(this, SignInActivity.class);
+            startActivity(tempIntent);
 
         }else if (id == R.id.nav_send) {
 
@@ -152,6 +177,7 @@ public class HomePage extends AppCompatActivity
         private Context mcontext;
         public TripsAdapter(Context c) {
             mcontext=c;
+            /*
             ArrayList<String> temp= new ArrayList<>();
             temp.add("Charger");
             temp.add("Camera");
@@ -161,7 +187,9 @@ public class HomePage extends AppCompatActivity
             upcomingtrips.add(new Trip(2,"Trip 2","Dallas","Florida", Trip.formatDate("03/15/2018"),Trip.formatDate("03/25/2018"),"Hey Second Trip",Mode.car,null, temp));
             upcomingtrips.add(new Trip(3,"Trip 3","Dallas","Florida", Trip.formatDate("03/15/2018"),Trip.formatDate("03/25/2018"),"Hey third Trip",Mode.car,null,temp));
             upcomingtrips.add(new Trip(4,"Trip 4","Dallas","Florida", Trip.formatDate("03/15/2018"),Trip.formatDate("03/25/2018"),"Hey fourth Trip",Mode.car));
-            upcomingtrips.add(new Trip(5,"Trip 5","Dallas","Florida", Trip.formatDate("03/15/2018"),Trip.formatDate("03/25/2018"),"Hey fifth Trip",Mode.car));
+            upcomingtrips.add(new Trip(5,"Trip 5","Dallas","Florida", Trip.formatDate("03/15/2018"),Trip.formatDate("03/25/2018"),"Hey fifth Trip",Mode.car));*/
+
+
         }
 
         @Override

@@ -8,6 +8,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -24,7 +26,6 @@ public class CreateTrip extends AppCompatActivity {
         setContentView(R.layout.activity_create_trip);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -47,7 +48,8 @@ public class CreateTrip extends AppCompatActivity {
         tempTrip.enddate=Trip.formatDate(((EditText) findViewById(R.id.enddate)).getText().toString());
 
         Intent myTrips=new Intent(this,HomePage.class);
-        myTrips.putExtra("newTrip",tempTrip);
+        ((DataAdapterTrips) this.getApplication()).addUpcomingTrips(tempTrip);
+        //myTrips.putExtra("newTrip",tempTrip);
         startActivity(myTrips);
 
     }
