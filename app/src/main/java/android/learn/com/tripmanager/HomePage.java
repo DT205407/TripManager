@@ -101,6 +101,9 @@ public class HomePage extends AppCompatActivity
                                     int position, long id) {
                 tempIntent=new Intent(HomePage.this,TripDetails.class);
                 tempIntent.putExtra("TripId",position);
+                tempIntent.putExtra("previousscreen","HomePage");
+                tempIntent.putExtra("currentscreen","TripDetailsDetailed");
+                tempIntent.putExtra("mode","normal");
                 //tempIntent.putExtra("Trip",upcomingtrips.get(position));
                 tempIntent.putExtra("TripName",upcomingtrips.get(position).name);
                 HomePage.this.startActivity(tempIntent);
@@ -148,13 +151,19 @@ public class HomePage extends AppCompatActivity
             startActivity(tempIntent);
 
         } else if (id == R.id.stats) {
-
+            tempIntent= new Intent(this, TravelHistoryStats.class);
+            startActivity(tempIntent);
         } else if (id == R.id.pastTrips) {
+            tempIntent= new Intent(this, MyPastTrips.class);
+            startActivity(tempIntent);
 
         } else if (id == R.id.editProfile) {
+            tempIntent= new Intent(this, EditUserProfile.class);
+            startActivity(tempIntent);
 
         } else if (id == R.id.about) {
-
+            tempIntent= new Intent(this, AboutPageTripManager.class);
+            startActivity(tempIntent);
         } else if (id == R.id.logout) {
 
             Log.e("Option", "onOptionsItemSelected: Logout selected ");
@@ -162,9 +171,10 @@ public class HomePage extends AppCompatActivity
             startActivity(tempIntent);
 
         }else if (id == R.id.nav_send) {
+            Toast.makeText(this, "This feature is not available please check later", Toast.LENGTH_SHORT).show();
 
         }else if (id == R.id.nav_share) {
-
+            Toast.makeText(this, "This feature is not available please check later", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

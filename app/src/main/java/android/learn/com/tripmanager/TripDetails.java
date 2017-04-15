@@ -25,8 +25,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,20 +72,19 @@ public class TripDetails extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        Intent i = getIntent();
-
-        //tempTrip=(Trip) i.getSerializableExtra("Trip");
+        //hides keyboard
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        final Intent i = getIntent();
         tempTrip= ((DataAdapterTrips) this.getApplication()).getTrip(i.getIntExtra("TripId",0));
-        //tempTrip.checklist.add("Charger");
-        //tempTrip.checklist.add("Torch");
-        //tempTrip.checklist.add("Calculator");
+
+
+        Log.d("View Invoked", "New view created" );
         ActionBar actionbar = getSupportActionBar();
         actionbar.setTitle(tempTrip.name);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(),tempTrip);
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -91,17 +93,90 @@ public class TripDetails extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        //((FloatingActionButton) this.findViewById(R.id.savetripdetails)).setVisibility(View.GONE);
+        FloatingActionButton edittripdetails = (FloatingActionButton) findViewById(R.id.edittripdetails);
+
+        //Below code will help us to alternate edit and save buttons
+        if(i.getStringExtra("mode").equals("normal"))
+        {
+            ((FloatingActionButton) this.findViewById(R.id.savetripdetails)).setVisibility(View.GONE);
+            ((FloatingActionButton) this.findViewById(R.id.edittripdetails)).setVisibility(View.VISIBLE);
+        }
+        //this is default action if anything messesup
+        else
+        {
+            ((FloatingActionButton) this.findViewById(R.id.savetripdetails)).setVisibility(View.VISIBLE);
+            ((FloatingActionButton) this.findViewById(R.id.edittripdetails)).setVisibility(View.GONE);
+        }
+
+
+        edittripdetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Intent temp=new Intent(view.getContext(),TripDetails.class);
+                temp.putExtra("TripId",i.getIntExtra("TripId",0));
+                if(i.getStringExtra("currentscreen").equals("TripDetailsDetailed") && i.getStringExtra("mode").equals("normal"))
+                {
+                    //update Trip object for details here
+                }
+                else if(i.getStringExtra("currentscreen").equals("TripDetailsChecklist") && i.getStringExtra("mode").equals("normal"))
+                {
+                    //update checklist here
+                }
+                else if(i.getStringExtra("currentscreen").equals("TripDetailsItenary") && i.getStringExtra("mode").equals("normal"))
+                {
+                    //update itenary here
+                }
+
+                temp.putExtra("mode","edit");
+                temp.putExtra("currentscreen",i.getStringExtra("currentscreen"));
+                view.getContext().startActivity(temp);
+
+
             }
         });
 
+        FloatingActionButton saveeditdetails = (FloatingActionButton) findViewById(R.id.savetripdetails);
+        saveeditdetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Intent temp=new Intent(view.getContext(),TripDetails.class);
+                temp.putExtra("TripId",i.getIntExtra("TripId",0));
+                view.getContext().startActivity(temp);
+
+                if(i.getStringExtra("currentscreen").equals("TripDetailsDetailed") && i.getStringExtra("mode").equals("edit"))
+                {
+                    //update Trip object for details here
+                }
+                else if(i.getStringExtra("currentscreen").equals("TripDetailsChecklist") && i.getStringExtra("mode").equals("edit"))
+                {
+                    //update Trip object for checklist here
+                }
+                else if(i.getStringExtra("currentscreen").equals("TripDetailsItenary") && i.getStringExtra("mode").equals("edit"))
+                {
+                    //update Trip object for itenary here
+                }
+
+                temp.putExtra("mode","normal");
+                temp.putExtra("currentscreen",i.getStringExtra("currentscreen"));
+                view.getContext().startActivity(temp);
+
+            }
+        });
+
+        mViewPager.setCurrentItem(1,true);
         //this is to set Trip detail tab as default view
-        mViewPager.setCurrentItem(1,false);
+        /*if(i.getStringExtra("currentscreen").equals("TripDetailsItenary"))
+            mViewPager.setCurrentItem(0,false);
+        else if (i.getStringExtra("currentscreen").equals("TripDetailsDetailed"))
+            mViewPager.setCurrentItem(1,false);
+        else if(i.getStringExtra("currentscreen").equals("TripDetailsChecklist"))
+            mViewPager.setCurrentItem(2,false);*/
+
+
+
     }
 
     @Override
@@ -120,12 +195,21 @@ public class TripDetails extends AppCompatActivity {
 
         Intent tempintent;
         //noinspection SimplifiableIfStatement
-        if (id == R.id.maps) {
-            tempintent=new Intent(this,TripDetailsMapsActivity.class);
-            tempintent.putExtra("sourcecity",tempTrip.source);
-            tempintent.putExtra("destinationcity",tempTrip.destination);
-            startActivity(tempintent);
-            return true;
+        switch(id){
+            case R.id.maps:
+                tempintent=new Intent(this,TripDetailsMapsActivity.class);
+                tempintent.putExtra("sourcecity",tempTrip.source);
+                tempintent.putExtra("destinationcity",tempTrip.destination);
+                startActivity(tempintent);
+                return true;
+            case R.id.alerts:
+                tempintent=new Intent(this,TripDetailsTripAlerts.class);
+                startActivity(tempintent);
+                return true;
+            case R.id.tripfriends:
+                tempintent=new Intent(this,TripDetailsFriends.class);
+                startActivity(tempintent);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -142,24 +226,16 @@ public class TripDetails extends AppCompatActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
+
         private static final String ARG_SECTION_NUMBER = "section_number";
 
         public PlaceholderFragment() {
         }
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber,Trip trip) {
+        public static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            args.putSerializable("Trip",trip);
             fragment.setArguments(args);
             return fragment;
         }
@@ -167,55 +243,63 @@ public class TripDetails extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView=null;
+            View rootView = null;
             TextView textView;
             ListView listView;
-            //Intent i = this.getActivity().getIntent();
-            //List<String> temp= Arrays.asList("element1","element2","element3");
-            List<String> temp= new ArrayList<String>();
-            //Trip trip=(Trip) getArguments().getSerializable("Trip");
-            Trip trip=((DataAdapterTrips) getActivity().getApplication()).getTrips().get(getArguments().getInt("TripId"));
+            List<String> temp = new ArrayList<String>();
+            Trip trip = ((DataAdapterTrips) getActivity().getApplication()).getTrips().get(getActivity().getIntent().getIntExtra("TripId",0));
+            Log.d("currentscreenNumber",String.valueOf(getArguments().getInt(ARG_SECTION_NUMBER)));
 
-
-            //temp.add((String) i.getSerializableExtra("TripName"));
-            switch(getArguments().getInt(ARG_SECTION_NUMBER)) {
+            switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
                 case 1:
                     rootView = inflater.inflate(R.layout.fragment_trip_details_iternary, container, false);
                     textView = (TextView) rootView.findViewById(R.id.section_label);
+                    getActivity().getIntent().putExtra("currentscreen","TripDetailsItenary");
+                    Log.d("currentscreen",getActivity().getIntent().getStringExtra("currentscreen"));
                     textView.setText(getString(R.string.tab1));
+                    Log.d("Tabs invoked", "Itenary" );
                     break;
                 case 2:
                     rootView = inflater.inflate(R.layout.fragment_trip_details_detailed, container, false);
-                    textView=(TextView) rootView.findViewById(R.id.sourcecity);
+                    getActivity().getIntent().putExtra("currentscreen","TripDetailsDetailed");
+                    Log.d("currentscreen",getActivity().getIntent().getStringExtra("currentscreen"));
+                    Log.d("Tabs invoked", "Tripdetails" );
+                    textView = (TextView) rootView.findViewById(R.id.sourcecity);
                     textView.setText(trip.source);
 
-                    textView=(TextView) rootView.findViewById(R.id.desinationcity);
-                    textView.setText(trip.destination);
 
-                    textView=(TextView) rootView.findViewById(R.id.startdate);
-                    textView.setText(Trip.datetostring(trip.startdate));
+                    //if value is Homepage then normal checklist is diplayed
+                    if(getActivity().getIntent().getStringExtra("mode").equals("normal"))
+                    {
+                        showtripdetail(rootView,trip);
 
-                    textView=(TextView) rootView.findViewById(R.id.enddate);
-                    textView.setText(Trip.datetostring(trip.enddate));
+                    }
+                    //if it is TripDetailsEdit then edittrip screen is displayed
+                    else
+                    {
+                        edittripdetail(rootView, trip);
 
-                    textView=(TextView) rootView.findViewById(R.id.description);
-                    textView.setText(trip.description);
-
-                    textView=(TextView) rootView.findViewById(R.id.travelmode);
-                    textView.setText(trip.mode.toString());
-
+                    }
                     break;
                 case 3:
                     rootView = inflater.inflate(R.layout.fragment_trip_details_checklist, container, false);
-                    if (trip.checklist.isEmpty())
-                    {
+                    //this is to check if you have any checklist
+                    getActivity().getIntent().putExtra("currentscreen","TripDetailsChecklist");
+                    Log.d("currentscreen",getActivity().getIntent().getStringExtra("currentscreen"));
+                    Log.d("Tabs invoked", "Checklist" );
+                    if (trip.checklist.isEmpty()) {
                         temp.add("There is nothing yet");
-                    }
-                    else
-                    {
-                        temp=trip.checklist;
+                    } else {
+                        temp = trip.checklist;
                     }
                     ArrayAdapter adapter = new ArrayAdapter<String>(rootView.getContext(), R.layout.fragment_tripdetails_checklist_singleelement, temp);
+                    //this is to add element to checklist
+                    if(getActivity().getIntent().getStringExtra("mode").equals("normal")){
+                        ((EditText) rootView.findViewById(R.id.editchecklist)).setVisibility(View.GONE);
+                    }
+                    else{
+                        ((EditText) rootView.findViewById(R.id.editchecklist)).setVisibility(View.VISIBLE);
+                    }
 
                     listView = (ListView) rootView.findViewById(R.id.tripdetails_checklist_listview);
                     listView.setAdapter(adapter);
@@ -224,7 +308,44 @@ public class TripDetails extends AppCompatActivity {
             }
             return rootView;
         }
+
+        public void showtripdetail(View view, Trip trip) {
+            ((TextView) view.findViewById(R.id.sourcecity)).setText(trip.source);
+            ((TextView) view.findViewById(R.id.desinationcity)).setText(trip.destination);
+            ((TextView) view.findViewById(R.id.startdate)).setText(Trip.datetostring(trip.startdate));
+            ((TextView) view.findViewById(R.id.enddate)).setText(Trip.datetostring(trip.enddate));
+            ((TextView) view.findViewById(R.id.description)).setText(trip.description);
+            ((TextView) view.findViewById(R.id.travelmode)).setText(trip.mode.toString());
+            //hides edittext
+            ((EditText) view.findViewById(R.id.sourcecityedit)).setVisibility(View.GONE);
+            ((EditText) view.findViewById(R.id.desinationcityedit)).setVisibility(View.GONE);
+            ((EditText) view.findViewById(R.id.startdateedit)).setVisibility(View.GONE);
+            ((EditText) view.findViewById(R.id.enddateedit)).setVisibility(View.GONE);
+            ((EditText) view.findViewById(R.id.descriptionedit)).setVisibility(View.GONE);
+            ((Spinner) view.findViewById(R.id.travelmodeedit)).setVisibility(View.GONE);
+
+        }
+
+
+        public void edittripdetail(View view, Trip trip) {
+            ((EditText) view.findViewById(R.id.sourcecityedit)).setText(trip.source);
+            ((EditText) view.findViewById(R.id.desinationcityedit)).setText(trip.destination);
+            ((EditText) view.findViewById(R.id.startdateedit)).setText(Trip.datetostring(trip.startdate));
+            ((EditText) view.findViewById(R.id.enddateedit)).setText(Trip.datetostring(trip.enddate));
+            ((EditText) view.findViewById(R.id.descriptionedit)).setText(trip.description);
+            //have to fix spinner selection text
+            ((Spinner) view.findViewById(R.id.travelmodeedit)).setSelection(1);
+
+            //hides textview
+            ((TextView) view.findViewById(R.id.sourcecity)).setVisibility(View.GONE);
+            ((TextView) view.findViewById(R.id.desinationcity)).setVisibility(View.GONE);
+            ((TextView) view.findViewById(R.id.startdate)).setVisibility(View.GONE);
+            ((TextView) view.findViewById(R.id.enddate)).setVisibility(View.GONE);
+            ((TextView) view.findViewById(R.id.description)).setVisibility(View.GONE);
+            ((TextView) view.findViewById(R.id.travelmode)).setVisibility(View.GONE);
+        }
     }
+
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -232,18 +353,14 @@ public class TripDetails extends AppCompatActivity {
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        Trip saveTripDetails;
-
-        public SectionsPagerAdapter(FragmentManager fm,Trip trip) {
+        public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
-            saveTripDetails=trip;
         }
 
         @Override
+        //this is to extract which tab is being clicked
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1,saveTripDetails);
+            return PlaceholderFragment.newInstance(position + 1);
         }
 
         @Override
