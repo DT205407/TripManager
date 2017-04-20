@@ -1,1 +1,1 @@
-include ':app', ':smartloginlibrary-v0.5beta', ':library'
+include ':app', ':smartloginlibrary-v0.5beta', ':library', ':jtds-1.3.1'

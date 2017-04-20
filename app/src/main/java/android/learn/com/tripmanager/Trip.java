@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Gopikrishna on 3/20/2017.
@@ -37,6 +38,36 @@ public class Trip implements Serializable{
         this.itinerary=new ArrayList<String>();
         this.checklist=new ArrayList<String>();
     }
+    public Trip(int id, String name, String source, String destination, Date startdate, Date enddate, String description, String mode) {
+        this.id = id;
+        this.name = name;
+        this.source = source;
+        this.destination = destination;
+        this.startdate = startdate;
+        this.enddate = enddate;
+        this.description = description;
+        this.itinerary=new ArrayList<String>();
+        this.checklist=new ArrayList<String>();
+        switch(mode){
+            case "car":
+                this.mode = Mode.car;
+                break;
+            case "bike":
+                this.mode = Mode.bike;
+                break;
+            case "plane":
+                this.mode = Mode.plane;
+                break;
+            case "train":
+                this.mode = Mode.train;
+                break;
+            default:
+                this.mode = Mode.car;
+                break;
+
+        }
+
+    }
 
     static Date formatDate(String strdate)
     {
@@ -57,13 +88,14 @@ public class Trip implements Serializable{
     }
 
     public Trip(){
-        this.id=0;
-        this.name="";
-        this.source="";
-        this.destination="";
-        this.startdate=null;
-        this.enddate=null;
-        this.description="";
+        //this generates random number between 1000 and 10,000
+        this.id=new Random().nextInt((10000-1000)+1)+1000;
+        this.name="Sample test";
+        this.source="Dallas";
+        this.destination="Chicago";
+        this.startdate=Trip.formatDate("01/10/2020");
+        this.enddate=Trip.formatDate("01/10/2020");
+        this.description="this is samle trip automatically generated";
         this.mode=Mode.car;
         this.itinerary=new ArrayList<String>();
         this.checklist=new ArrayList<String>();
@@ -96,5 +128,45 @@ public class Trip implements Serializable{
     }
 
 
+    public Trip(int id,String name, String source, String destination, Date startdate, Date enddate, String description, String mode, ArrayList<String>  itinerary, ArrayList<String> checklist) {
+        this.id=id;
+        this.name = name;
+        this.source = source;
+        this.destination = destination;
+        this.startdate = startdate;
+        this.enddate = enddate;
+        this.description = description;
+        if (itinerary==null){
+            this.itinerary=new ArrayList<String>();
+        }
+        else{
+            this.itinerary = itinerary;
+        }
+
+        if (checklist==null){
+            this.checklist=new ArrayList<String>();
+        }
+        else{
+            this.checklist = checklist;
+        }
+        switch(mode){
+            case "car":
+                this.mode = Mode.car;
+                break;
+            case "bike":
+                this.mode = Mode.bike;
+                break;
+            case "plane":
+                this.mode = Mode.plane;
+                break;
+            case "train":
+                this.mode = Mode.train;
+                break;
+            default:
+                this.mode = Mode.car;
+                break;
+
+        }
+    }
 };
 

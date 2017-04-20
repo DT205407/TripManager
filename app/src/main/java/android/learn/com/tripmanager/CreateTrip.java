@@ -48,7 +48,10 @@ public class CreateTrip extends AppCompatActivity {
         tempTrip.enddate=Trip.formatDate(((EditText) findViewById(R.id.enddate)).getText().toString());
 
         Intent myTrips=new Intent(this,HomePage.class);
+        // this adds trip to trips context
         ((DataAdapterTrips) this.getApplication()).addUpcomingTrips(tempTrip);
+        // this adds trip to database
+        ((DataAdapterTrips) this.getApplication()).insertTripinDatabase(tempTrip);
         //myTrips.putExtra("newTrip",tempTrip);
         startActivity(myTrips);
 
