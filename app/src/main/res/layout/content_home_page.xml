@@ -8,4 +8,5 @@
     tools:context="android.learn.com.tripmanager.HomePage"
     tools:showIn="@layout/app_bar_home_page">
 
+
 </android.support.constraint.ConstraintLayout>

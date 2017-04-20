@@ -2,9 +2,12 @@ package android.learn.com.tripmanager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +18,9 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,12 +32,16 @@ public class MyPastTrips extends AppCompatActivity {
     //size of trips is static but this has to be set after fetching data from database
     public ArrayList<Trip> trips=null;
     GridView gridview;
+    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private ViewPager mViewPager;
     //Below code is to show toolbar and layout
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_past_trips);
 
+        setContentView(R.layout.activity_my_trips);
+
+        Log.d("Tabs","ooncreate created");
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
@@ -39,6 +49,12 @@ public class MyPastTrips extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.menu1);
 
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(mViewPager);
 
         gridview = (GridView) findViewById(R.id.my_past_trips_grid);
         gridview.setAdapter(new TripsAdapter(this));
@@ -51,6 +67,8 @@ public class MyPastTrips extends AppCompatActivity {
             }
         });
 
+
+        mViewPager.setCurrentItem(1,true);
 
     }
 
@@ -68,7 +86,86 @@ public class MyPastTrips extends AppCompatActivity {
         }
         return date;
     }
+    public static class PlaceholderFragment extends Fragment {
 
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        public PlaceholderFragment() {
+        }
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static PlaceholderFragment newInstance(int sectionNumber) {
+            MyPastTrips.PlaceholderFragment fragment = new MyPastTrips.PlaceholderFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+        Bundle savedInstanceState) {
+            View rootView = null;
+            TextView textView;
+            GridView gridView;
+            switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
+                case 1:
+                    // show past trips
+                    rootView = inflater.inflate(R.layout.activity_my_trips, container, false);
+                    gridView = (GridView) rootView.findViewById(R.id.my_past_trips_grid_fragment);
+                    //gridView. .setText("Past Trips");
+                case 2:
+                    // show current trips
+                    rootView = inflater.inflate(R.layout.activity_my_trips, container, false);
+                    gridView = (GridView) rootView.findViewById(R.id.my_upcoming_trips_grid_fragment);
+                    //textView.setText("Upcoming Trips");
+            }
+            return rootView;
+        }
+    }
+    /**
+     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+     * one of the sections/tabs/pages.
+     */
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        Trip trips;
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+           // trips=trip;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            // getItem is called to instantiate the fragment for the given page.
+            // Return a PlaceholderFragment (defined as a static inner class below).
+            return PlaceholderFragment.newInstance(position+1);
+        }
+
+        @Override
+        public int getCount() {
+            // Show 2 total pages.
+            return 2;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            Log.d("Tabs","Tabs created");
+            switch (position) {
+                case 0:
+                    return getString(R.string.tab1);
+                case 1:
+                    return getString(R.string.tab2);
+            }
+            return null;
+        }
+    }
     //This code is to overlay menu items on action bar
     // Menu icons are inflated just as they were with actionbar
     @Override

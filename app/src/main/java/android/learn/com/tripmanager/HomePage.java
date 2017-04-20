@@ -5,6 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,11 +44,14 @@ public class HomePage extends AppCompatActivity
     GridView gridview;
     Intent tempIntent;
 
+    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private ViewPager mViewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar_mytrips);
         setSupportActionBar(toolbar);
 
         if(upcomingtrips.isEmpty())
@@ -91,8 +99,17 @@ public class HomePage extends AppCompatActivity
 
         getSupportActionBar().setTitle("My Trips");
         //test comment
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mViewPager = (ViewPager) findViewById(R.id.container_mytrips);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs_mytrips);
+        tabLayout.setupWithViewPager(mViewPager);
+
+        gridview = (GridView) findViewById(R.id.my_upcoming_trips_grid_fragment);
 
 
+        /*-- commented on 20-04 to add past and upcoming trips
         gridview = (GridView) findViewById(R.id.my_upcoming_trips_grid);
         gridview.setAdapter(new HomePage.TripsAdapter(this));
 
@@ -111,8 +128,89 @@ public class HomePage extends AppCompatActivity
                 HomePage.this.finish();
 
             }
-        });
+        });*/
 
+    }
+    public static class PlaceholderFragment extends Fragment {
+
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        public PlaceholderFragment() {
+        }
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static PlaceholderFragment newInstance(int sectionNumber) {
+            PlaceholderFragment fragment = new PlaceholderFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = null;
+            TextView textView;
+            GridView gridView;
+            switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
+                case 1:
+                    // show past trips
+                    rootView = inflater.inflate(R.layout.content_home_page, container, false);
+                    gridView = (GridView) rootView.findViewById(R.id.my_past_trips_grid_fragment);
+                    //gridView.setAdapter(new TripsAdapter(rootView.getContext()));
+                    //gridView. .setText("Past Trips");
+                case 2:
+                    // show current trips
+                    rootView = inflater.inflate(R.layout.content_home_page, container, false);
+                    gridView = (GridView) rootView.findViewById(R.id.my_upcoming_trips_grid_fragment);
+                    //textView.setText("Upcoming Trips");
+            }
+            return rootView;
+        }
+    }
+    /**
+     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+     * one of the sections/tabs/pages.
+     */
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        Trip trips;
+
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+            // trips=trip;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            // getItem is called to instantiate the fragment for the given page.
+            // Return a PlaceholderFragment (defined as a static inner class below).
+            return PlaceholderFragment.newInstance(position+1);
+        }
+
+        @Override
+        public int getCount() {
+            // Show 2 total pages.
+            return 2;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            Log.d("Tabs","Tabs created");
+            switch (position) {
+                case 0:
+                    return getString(R.string.tab4);
+                case 1:
+                    return getString(R.string.tab5);
+            }
+            return null;
+        }
     }
 
 

@@ -38,6 +38,8 @@
     <string name="tab1">Itinerary</string>
     <string name="tab2">Details</string>
     <string name="tab3">Checklist</string>
+    <string name="tab4">Past Trips</string>
+    <string name="tab5">Upcoming Trips</string>
     <string name="title_activity_home_page">HomePage</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
