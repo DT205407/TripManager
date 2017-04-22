@@ -11,11 +11,10 @@
     <GridView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/my_past_trips_grid_fragment"
+        android:id="@+id/my_past_trips_grid_fragment2"
         android:numColumns="auto_fit"
         android:horizontalSpacing="5dp"
         android:verticalSpacing="5dp"
-        android:layout_marginTop="133dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 

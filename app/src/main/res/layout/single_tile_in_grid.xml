@@ -14,6 +14,8 @@
             android:id="@+id/imageView1"
             android:layout_width="150dp"
             android:layout_height="80dp"
+            android:focusable="false"
+            android:clickable="false"
             android:src="@drawable/default_image" />
 
         <TextView
@@ -21,6 +23,8 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imageView1"
+            android:focusable="false"
+            android:clickable="false"
             android:gravity="center_horizontal"
             android:textColor="@color/com_facebook_blue"
             android:text="Hello World" />

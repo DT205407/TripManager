@@ -78,8 +78,8 @@
         <activity android:name=".TripDetailsTripAlerts" />
         <activity
             android:name=".TripDetailsFriends"
-            android:label="@string/title_activity_trip_details_friends"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:label="@string/tripfriends"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     </application>
 
 </manifest>

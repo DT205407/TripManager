@@ -18,8 +18,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -78,7 +76,6 @@ public class TripDetails extends AppCompatActivity {
         tempTrip= ((DataAdapterTrips) this.getApplication()).getTrip(i.getIntExtra("TripId",0));
 
 
-        Log.d("View Invoked", "New view created" );
         ActionBar actionbar = getSupportActionBar();
         actionbar.setTitle(tempTrip.name);
 
@@ -93,87 +90,15 @@ public class TripDetails extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        //((FloatingActionButton) this.findViewById(R.id.savetripdetails)).setVisibility(View.GONE);
-        FloatingActionButton edittripdetails = (FloatingActionButton) findViewById(R.id.edittripdetails);
-
-        //Below code will help us to alternate edit and save buttons
-        if(i.getStringExtra("mode").equals("normal"))
-        {
-            ((FloatingActionButton) this.findViewById(R.id.savetripdetails)).setVisibility(View.GONE);
-            ((FloatingActionButton) this.findViewById(R.id.edittripdetails)).setVisibility(View.VISIBLE);
-        }
-        //this is default action if anything messesup
-        else
-        {
-            ((FloatingActionButton) this.findViewById(R.id.savetripdetails)).setVisibility(View.VISIBLE);
-            ((FloatingActionButton) this.findViewById(R.id.edittripdetails)).setVisibility(View.GONE);
-        }
-
-
-        edittripdetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                Intent temp=new Intent(view.getContext(),TripDetails.class);
-                temp.putExtra("TripId",i.getIntExtra("TripId",0));
-                if(i.getStringExtra("currentscreen").equals("TripDetailsDetailed") && i.getStringExtra("mode").equals("normal"))
-                {
-                    //update Trip object for details here
-                }
-                else if(i.getStringExtra("currentscreen").equals("TripDetailsChecklist") && i.getStringExtra("mode").equals("normal"))
-                {
-                    //update checklist here
-                }
-                else if(i.getStringExtra("currentscreen").equals("TripDetailsItenary") && i.getStringExtra("mode").equals("normal"))
-                {
-                    //update itenary here
-                }
-
-                temp.putExtra("mode","edit");
-                temp.putExtra("currentscreen",i.getStringExtra("currentscreen"));
-                view.getContext().startActivity(temp);
-
-
-            }
-        });
-
-        FloatingActionButton saveeditdetails = (FloatingActionButton) findViewById(R.id.savetripdetails);
-        saveeditdetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-                Intent temp=new Intent(view.getContext(),TripDetails.class);
-                temp.putExtra("TripId",i.getIntExtra("TripId",0));
-                view.getContext().startActivity(temp);
-
-                if(i.getStringExtra("currentscreen").equals("TripDetailsDetailed") && i.getStringExtra("mode").equals("edit"))
-                {
-                    //update Trip object for details here
-                }
-                else if(i.getStringExtra("currentscreen").equals("TripDetailsChecklist") && i.getStringExtra("mode").equals("edit"))
-                {
-                    //update Trip object for checklist here
-                }
-                else if(i.getStringExtra("currentscreen").equals("TripDetailsItenary") && i.getStringExtra("mode").equals("edit"))
-                {
-                    //update Trip object for itenary here
-                }
-
-                temp.putExtra("mode","normal");
-                temp.putExtra("currentscreen",i.getStringExtra("currentscreen"));
-                view.getContext().startActivity(temp);
-
-            }
-        });
-
-        mViewPager.setCurrentItem(1,true);
         //this is to set Trip detail tab as default view
-        /*if(i.getStringExtra("currentscreen").equals("TripDetailsItenary"))
+        if(i.getStringExtra("currentscreen").equals("TripDetailsItenary"))
             mViewPager.setCurrentItem(0,false);
         else if (i.getStringExtra("currentscreen").equals("TripDetailsDetailed"))
             mViewPager.setCurrentItem(1,false);
         else if(i.getStringExtra("currentscreen").equals("TripDetailsChecklist"))
-            mViewPager.setCurrentItem(2,false);*/
+            mViewPager.setCurrentItem(2,false);
+        else
+            mViewPager.setCurrentItem(1,true);
 
 
 
@@ -248,61 +173,171 @@ public class TripDetails extends AppCompatActivity {
             ListView listView;
             List<String> temp = new ArrayList<String>();
             Trip trip = ((DataAdapterTrips) getActivity().getApplication()).getTrips().get(getActivity().getIntent().getIntExtra("TripId",0));
-            Log.d("currentscreenNumber",String.valueOf(getArguments().getInt(ARG_SECTION_NUMBER)));
 
             switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
                 case 1:
                     rootView = inflater.inflate(R.layout.fragment_trip_details_iternary, container, false);
-                    textView = (TextView) rootView.findViewById(R.id.section_label);
                     getActivity().getIntent().putExtra("currentscreen","TripDetailsItenary");
-                    Log.d("currentscreen",getActivity().getIntent().getStringExtra("currentscreen"));
-                    textView.setText(getString(R.string.tab1));
-                    Log.d("Tabs invoked", "Itenary" );
+
+                    if (trip.checklist.isEmpty()) {
+                        temp.add("There is nothing yet! Click Add button to add more");
+                    } else {
+                        temp = trip.itinerary;
+                    }
+
+                    ArrayAdapter adapter1 = new ArrayAdapter<String>(rootView.getContext(), R.layout.fragment_tripdetails_checklist_singleelement, temp);
+
+                    if(getActivity().getIntent().getStringExtra("mode").equals("normal"))
+                    {
+                        ((EditText) rootView.findViewById(R.id.edititinerary)).setVisibility(View.GONE);
+                        ((FloatingActionButton) rootView.findViewById(R.id.savetripitinerary)).setVisibility(View.GONE);
+                        ((FloatingActionButton) rootView.findViewById(R.id.edittripitinerary)).setVisibility(View.VISIBLE);
+
+                    }
+                    //if it is TripDetailsEdit then edittrip screen is displayed
+                    else
+                    {
+                        ((EditText) rootView.findViewById(R.id.edititinerary)).setVisibility(View.VISIBLE);
+                        ((FloatingActionButton) rootView.findViewById(R.id.savetripitinerary)).setVisibility(View.VISIBLE);
+                        ((FloatingActionButton) rootView.findViewById(R.id.edittripitinerary)).setVisibility(View.GONE);
+
+                    }
+
+                    FloatingActionButton edittripitinerary = (FloatingActionButton) rootView.findViewById(R.id.edittripitinerary);
+
+                    //Below code will help us to flip edit and save buttons
+                    edittripitinerary.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                            Intent temp=new Intent(view.getContext(),TripDetails.class);
+                            temp.putExtra("TripId",getActivity().getIntent().getIntExtra("TripId",0));
+                            temp.putExtra("mode","edit");
+                            temp.putExtra("currentscreen","TripDetailsItenary");
+                            view.getContext().startActivity(temp);
+                        }
+                    });
+
+                    FloatingActionButton saveedititinerary = (FloatingActionButton) rootView.findViewById(R.id.savetripitinerary);
+                    saveedititinerary.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                            Intent temp=new Intent(view.getContext(),TripDetails.class);
+                            temp.putExtra("TripId",getActivity().getIntent().getIntExtra("TripId",0));
+                            temp.putExtra("mode","normal");
+                            temp.putExtra("currentscreen","TripDetailsItenary");
+                            view.getContext().startActivity(temp);
+
+                        }
+                    });
+
+                    listView = (ListView) rootView.findViewById(R.id.tripdetails_itinerary_listview);
+                    listView.setAdapter(adapter1);
+
                     break;
                 case 2:
                     rootView = inflater.inflate(R.layout.fragment_trip_details_detailed, container, false);
-                    getActivity().getIntent().putExtra("currentscreen","TripDetailsDetailed");
-                    Log.d("currentscreen",getActivity().getIntent().getStringExtra("currentscreen"));
-                    Log.d("Tabs invoked", "Tripdetails" );
-                    textView = (TextView) rootView.findViewById(R.id.sourcecity);
-                    textView.setText(trip.source);
 
 
                     //if value is Homepage then normal checklist is diplayed
                     if(getActivity().getIntent().getStringExtra("mode").equals("normal"))
                     {
                         showtripdetail(rootView,trip);
+                        ((FloatingActionButton) rootView.findViewById(R.id.savetripdetails)).setVisibility(View.GONE);
+                        ((FloatingActionButton) rootView.findViewById(R.id.edittripdetails)).setVisibility(View.VISIBLE);
 
                     }
                     //if it is TripDetailsEdit then edittrip screen is displayed
                     else
                     {
                         edittripdetail(rootView, trip);
+                        ((FloatingActionButton) rootView.findViewById(R.id.savetripdetails)).setVisibility(View.VISIBLE);
+                        ((FloatingActionButton) rootView.findViewById(R.id.edittripdetails)).setVisibility(View.GONE);
 
                     }
+
+                    FloatingActionButton edittripdetails = (FloatingActionButton) rootView.findViewById(R.id.edittripdetails);
+
+                    //Below code will help us to flip edit and save buttons
+                    edittripdetails.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                            Intent temp=new Intent(view.getContext(),TripDetails.class);
+                            temp.putExtra("TripId",getActivity().getIntent().getIntExtra("TripId",0));
+                            temp.putExtra("mode","edit");
+                            temp.putExtra("currentscreen","TripDetailsDetailed");
+                            view.getContext().startActivity(temp);
+                        }
+                    });
+
+                    FloatingActionButton saveeditdetails = (FloatingActionButton) rootView.findViewById(R.id.savetripdetails);
+                    saveeditdetails.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                            Intent temp=new Intent(view.getContext(),TripDetails.class);
+                            temp.putExtra("TripId",getActivity().getIntent().getIntExtra("TripId",0));
+                            temp.putExtra("mode","normal");
+                            temp.putExtra("currentscreen","TripDetailsDetailed");
+                            view.getContext().startActivity(temp);
+
+                        }
+                    });
                     break;
                 case 3:
                     rootView = inflater.inflate(R.layout.fragment_trip_details_checklist, container, false);
                     //this is to check if you have any checklist
-                    getActivity().getIntent().putExtra("currentscreen","TripDetailsChecklist");
-                    Log.d("currentscreen",getActivity().getIntent().getStringExtra("currentscreen"));
-                    Log.d("Tabs invoked", "Checklist" );
                     if (trip.checklist.isEmpty()) {
                         temp.add("There is nothing yet");
                     } else {
                         temp = trip.checklist;
                     }
+
                     ArrayAdapter adapter = new ArrayAdapter<String>(rootView.getContext(), R.layout.fragment_tripdetails_checklist_singleelement, temp);
+
                     //this is to add element to checklist
                     if(getActivity().getIntent().getStringExtra("mode").equals("normal")){
                         ((EditText) rootView.findViewById(R.id.editchecklist)).setVisibility(View.GONE);
+                        ((FloatingActionButton) rootView.findViewById(R.id.savetripdetails)).setVisibility(View.GONE);
+                        ((FloatingActionButton) rootView.findViewById(R.id.edittripdetails)).setVisibility(View.VISIBLE);
                     }
                     else{
                         ((EditText) rootView.findViewById(R.id.editchecklist)).setVisibility(View.VISIBLE);
+                        ((FloatingActionButton) rootView.findViewById(R.id.savetripdetails)).setVisibility(View.VISIBLE);
+                        ((FloatingActionButton) rootView.findViewById(R.id.edittripdetails)).setVisibility(View.GONE);
                     }
 
                     listView = (ListView) rootView.findViewById(R.id.tripdetails_checklist_listview);
                     listView.setAdapter(adapter);
+
+                    FloatingActionButton editcheckList = (FloatingActionButton) rootView.findViewById(R.id.edittripdetails);
+
+                    //Below code will help us to flip edit and save buttons
+                    editcheckList.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent temp=new Intent(view.getContext(),TripDetails.class);
+                            temp.putExtra("TripId",getActivity().getIntent().getIntExtra("TripId",0));
+                            temp.putExtra("mode","edit");
+                            temp.putExtra("currentscreen","TripDetailsChecklist");
+                            view.getContext().startActivity(temp);
+                        }
+                    });
+
+                    FloatingActionButton savechecklistdetails = (FloatingActionButton) rootView.findViewById(R.id.savetripdetails);
+                    savechecklistdetails.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent temp=new Intent(view.getContext(),TripDetails.class);
+                            temp.putExtra("TripId",getActivity().getIntent().getIntExtra("TripId",0));
+                            temp.putExtra("mode","normal");
+                            temp.putExtra("currentscreen","TripDetailsChecklist");
+                            view.getContext().startActivity(temp);
+
+                        }
+                    });
 
                     break;
             }

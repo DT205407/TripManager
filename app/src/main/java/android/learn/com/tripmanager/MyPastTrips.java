@@ -117,12 +117,12 @@ public class MyPastTrips extends AppCompatActivity {
                 case 1:
                     // show past trips
                     rootView = inflater.inflate(R.layout.activity_my_trips, container, false);
-                    gridView = (GridView) rootView.findViewById(R.id.my_past_trips_grid_fragment);
+                    //gridView = (GridView) rootView.findViewById(R.id.my_past_trips_grid_fragment);
                     //gridView. .setText("Past Trips");
                 case 2:
                     // show current trips
                     rootView = inflater.inflate(R.layout.activity_my_trips, container, false);
-                    gridView = (GridView) rootView.findViewById(R.id.my_upcoming_trips_grid_fragment);
+                    //gridView = (GridView) rootView.findViewById(R.id.my_upcoming_trips_grid_fragment);
                     //textView.setText("Upcoming Trips");
             }
             return rootView;

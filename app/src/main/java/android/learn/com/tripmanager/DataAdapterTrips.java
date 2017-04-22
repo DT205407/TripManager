@@ -18,17 +18,15 @@ import java.util.ArrayList;
  */
 
 public class DataAdapterTrips extends Application {
-    private ArrayList<Trip> upcomingtrips=new ArrayList<Trip>();
+    private static ArrayList<Trip> upcomingtrips=new ArrayList<Trip>();
 
 
     public ArrayList<Trip> getTrips() {
 
         if(upcomingtrips.isEmpty()) {
             gettripssqlserver();
-            Log.e("Data", "Data appended in application file");
         }
         else{
-            Log.e("Data", "Data not appended in application file");
         }
 
         return upcomingtrips;
@@ -36,7 +34,7 @@ public class DataAdapterTrips extends Application {
 
     public Trip getTrip(int id){
         return upcomingtrips.get(id);
-    }
+}
 
     public void addUpcomingTrips(Trip tempTrip){
         tempTrip.id=upcomingtrips.size()+1;
@@ -59,6 +57,10 @@ public class DataAdapterTrips extends Application {
                 temp.add("Camera");
                 temp.add("Torch");
 
+                ArrayList<String> tempItenary = new ArrayList<>();
+                tempItenary.add("Today\n\nGo to Restaurent and meet client");
+                tempItenary.add("Tommorow\n\nGo to beach");
+
                 while(rs.next())
                 {
 
@@ -73,7 +75,7 @@ public class DataAdapterTrips extends Application {
                             Trip.formatDate(rs.getString("enddate")),
                             rs.getString("tripdescription"),
                             rs.getString("mode"),
-                            null,
+                            tempItenary,
                             temp
                     ));
                 }
@@ -88,9 +90,13 @@ public class DataAdapterTrips extends Application {
             temp.add("Charger");
             temp.add("Camera");
             temp.add("Torch");
+            ArrayList<String> friends = new ArrayList<>();
+            friends.add("Gopi");
+            friends.add("Shraddha");
+            friends.add("Aditya");
             upcomingtrips.add(new Trip(1, "Trip 1", "Dallas", "Florida", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey first Trip", Mode.car));
-            upcomingtrips.add(new Trip(2, "Trip 2", "Dallas", "Florida", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey Second Trip", Mode.car, null, temp));
-            upcomingtrips.add(new Trip(3, "Trip 3", "Dallas", "Florida", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey third Trip", Mode.car, null, temp));
+            upcomingtrips.add(new Trip(2, "Trip 2", "Dallas", "Florida", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey Second Trip", Mode.car, null, temp,friends));
+            upcomingtrips.add(new Trip(3, "Trip 3", "Dallas", "Florida", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey third Trip", Mode.car, null, temp,friends));
             upcomingtrips.add(new Trip(4, "Trip 4", "Dallas", "Florida", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey fourth Trip", Mode.car));
             upcomingtrips.add(new Trip(5, "Trip 5", "Dallas", "Florida", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey fifth Trip", Mode.car));
         }

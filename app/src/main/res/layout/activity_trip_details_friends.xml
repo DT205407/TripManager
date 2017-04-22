@@ -9,13 +9,15 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppBarOverlay">
+        android:theme="@style/AppTheme">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            android:visibility="visible"
+            android:title="@string/tripfriends"
             app:popupTheme="@style/PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
@@ -23,11 +25,23 @@
     <include layout="@layout/content_trip_details_friends" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/addfriend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        android:tint="@android:color/black"
+        app:backgroundTint="@android:color/background_light"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/savenewfriend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_margin="@dimen/fab_margin"
+        android:tint="@android:color/black"
+        app:backgroundTint="@android:color/background_light"
+        app:srcCompat="@android:drawable/ic_menu_save" />
 
 </android.support.design.widget.CoordinatorLayout>

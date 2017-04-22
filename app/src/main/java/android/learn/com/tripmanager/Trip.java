@@ -25,6 +25,7 @@ public class Trip implements Serializable{
     public Mode mode;
     public List<String> itinerary;
     public List<String> checklist;
+    public List<String> tripFriends;
 
     public Trip(int id, String name, String source, String destination, Date startdate, Date enddate, String description, Mode mode) {
         this.id = id;
@@ -37,6 +38,7 @@ public class Trip implements Serializable{
         this.mode = mode;
         this.itinerary=new ArrayList<String>();
         this.checklist=new ArrayList<String>();
+        this.tripFriends=new ArrayList<String>();
     }
     public Trip(int id, String name, String source, String destination, Date startdate, Date enddate, String description, String mode) {
         this.id = id;
@@ -48,6 +50,7 @@ public class Trip implements Serializable{
         this.description = description;
         this.itinerary=new ArrayList<String>();
         this.checklist=new ArrayList<String>();
+        this.tripFriends=new ArrayList<String>();
         switch(mode){
             case "car":
                 this.mode = Mode.car;
@@ -99,10 +102,41 @@ public class Trip implements Serializable{
         this.mode=Mode.car;
         this.itinerary=new ArrayList<String>();
         this.checklist=new ArrayList<String>();
+        this.tripFriends=new ArrayList<String>();
     }
 
 
-    public Trip(int id,String name, String source, String destination, Date startdate, Date enddate, String description, Mode mode, ArrayList<String>  itinerary, ArrayList<String> checklist) {
+    public Trip(int id, String name, String source, String destination, Date startdate, Date enddate, String description, Mode mode, List<String> itinerary, List<String> checklist, List<String> tripFriends) {
+        this.id = id;
+        this.name = name;
+        this.source = source;
+        this.destination = destination;
+        this.startdate = startdate;
+        this.enddate = enddate;
+        this.description = description;
+        this.mode = mode;
+        if (itinerary==null){
+            this.itinerary=new ArrayList<String>();
+        }
+        else{
+            this.itinerary = itinerary;
+        }
+
+        if (checklist==null){
+            this.checklist=new ArrayList<String>();
+        }
+        else{
+            this.checklist = checklist;
+        }
+        if (tripFriends==null){
+            this.tripFriends=new ArrayList<String>();
+        }
+        else{
+            this.tripFriends = tripFriends;
+        }
+    }
+
+    public Trip(int id, String name, String source, String destination, Date startdate, Date enddate, String description, Mode mode, ArrayList<String>  itinerary, ArrayList<String> checklist) {
         this.id=id;
         this.name = name;
         this.source = source;
