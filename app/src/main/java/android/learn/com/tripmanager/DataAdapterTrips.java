@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 /**
@@ -36,9 +37,25 @@ public class DataAdapterTrips extends Application {
         return upcomingtrips.get(id);
 }
 
+    public void getStats(){
+        int upcoming_trips=upcomingtrips.size();
+        int past_trips=5;
+
+
+        for(Trip tempTrip: upcomingtrips){
+
+        }
+
+        int no_of_cities;
+        int distance=2334;
+
+    }
+
     public void addUpcomingTrips(Trip tempTrip){
         tempTrip.id=upcomingtrips.size()+1;
         this.upcomingtrips.add(tempTrip);
+
+
     }
 
 

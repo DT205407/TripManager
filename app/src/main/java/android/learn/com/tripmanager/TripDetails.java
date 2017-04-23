@@ -18,6 +18,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -118,22 +119,23 @@ public class TripDetails extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        Intent tempintent;
+        Intent tempintent1,tempintent2,tempintent3;
         //noinspection SimplifiableIfStatement
         switch(id){
             case R.id.maps:
-                tempintent=new Intent(this,TripDetailsMapsActivity.class);
-                tempintent.putExtra("sourcecity",tempTrip.source);
-                tempintent.putExtra("destinationcity",tempTrip.destination);
-                startActivity(tempintent);
+                tempintent1=new Intent(this,TripDetailsMapsActivity.class);
+                tempintent1.putExtra("sourcecity",tempTrip.source);
+                tempintent1.putExtra("destinationcity",tempTrip.destination);
+                startActivity(tempintent1);
                 return true;
             case R.id.alerts:
-                tempintent=new Intent(this,TripDetailsTripAlerts.class);
-                startActivity(tempintent);
+                tempintent2=new Intent(this,TripDetailsTripAlerts.class);
+                tempintent2.putExtra("TripId2",tempTrip.id);
+                startActivity(tempintent2);
                 return true;
             case R.id.tripfriends:
-                tempintent=new Intent(this,TripDetailsFriends.class);
-                startActivity(tempintent);
+                tempintent3=new Intent(this,TripDetailsFriends.class);
+                startActivity(tempintent3);
                 return true;
         }
 

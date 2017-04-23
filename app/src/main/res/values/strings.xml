@@ -26,6 +26,10 @@
     <string name="mode">Travel Mode</string>
     <string name="tripimage">Trip Image</string>
     <string name="addtripbutton">Add</string>
+    <string name="temperature">Temperature</string>
+    <string name="pressure">Pressure</string>
+    <string name="humidity">Humidity</string>
+    <string name="wind">Wind</string>
 
     <string name="bus">Bus</string>
     <string name="plane">Plane</string>
