@@ -202,7 +202,6 @@ public class HomePage extends AppCompatActivity
 
         @Override
         public int getCount() {
-            Log.e("Data",String.valueOf(upcomingtrips.size()));
             return upcomingtrips.size();
         }
 

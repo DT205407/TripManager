@@ -162,7 +162,7 @@ public class Trip implements Serializable{
     }
 
 
-    public Trip(int id,String name, String source, String destination, Date startdate, Date enddate, String description, String mode, ArrayList<String>  itinerary, ArrayList<String> checklist) {
+    public Trip(int id,String name, String source, String destination, Date startdate, Date enddate, String description, String mode, ArrayList<String>  itinerary, ArrayList<String> checklist,ArrayList<String> friends) {
         this.id=id;
         this.name = name;
         this.source = source;
@@ -183,6 +183,12 @@ public class Trip implements Serializable{
         else{
             this.checklist = checklist;
         }
+        if (friends==null){
+            this.tripFriends=new ArrayList<String>();
+        }
+        else{
+            this.tripFriends = friends;
+        }
         switch(mode){
             case "car":
                 this.mode = Mode.car;
@@ -201,6 +207,7 @@ public class Trip implements Serializable{
                 break;
 
         }
+
     }
 };
 

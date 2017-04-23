@@ -26,8 +26,6 @@ public class DataAdapterTrips extends Application {
         if(upcomingtrips.isEmpty()) {
             gettripssqlserver();
         }
-        else{
-        }
 
         return upcomingtrips;
     }
@@ -44,6 +42,10 @@ public class DataAdapterTrips extends Application {
 
     public void  gettripssqlserver(){
         String z=new String();
+        ArrayList<String> friends = new ArrayList<>();
+        friends.add("Gopi");
+        friends.add("Shraddha");
+        friends.add("Aditya");
         try {
             Connection con = new ConnectionClass().CONN();
             if (con == null) {
@@ -76,7 +78,8 @@ public class DataAdapterTrips extends Application {
                             rs.getString("tripdescription"),
                             rs.getString("mode"),
                             tempItenary,
-                            temp
+                            temp,
+                            friends
                     ));
                 }
                 Log.e("Sample Data",String.valueOf(upcomingtrips.size()));
@@ -90,10 +93,7 @@ public class DataAdapterTrips extends Application {
             temp.add("Charger");
             temp.add("Camera");
             temp.add("Torch");
-            ArrayList<String> friends = new ArrayList<>();
-            friends.add("Gopi");
-            friends.add("Shraddha");
-            friends.add("Aditya");
+
             upcomingtrips.add(new Trip(1, "Trip 1", "Dallas", "Florida", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey first Trip", Mode.car));
             upcomingtrips.add(new Trip(2, "Trip 2", "Dallas", "Florida", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey Second Trip", Mode.car, null, temp,friends));
             upcomingtrips.add(new Trip(3, "Trip 3", "Dallas", "Florida", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey third Trip", Mode.car, null, temp,friends));

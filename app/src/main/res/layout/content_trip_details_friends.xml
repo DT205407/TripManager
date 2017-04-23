@@ -7,22 +7,27 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="android.learn.com.tripmanager.TripDetailsFriends"
     tools:showIn="@layout/activity_trip_details_friends">
-
+<LinearLayout
+    android:layout_width="344dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:layout_editor_absoluteY="0dp"
+    tools:layout_editor_absoluteX="8dp">
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:id="@+id/tripdetails_checklist_listview"/>
+        android:id="@+id/tripdetails_friends_listview"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <EditText
-            android:id="@+id/editchecklist"
+            android:id="@+id/addnewfriend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter new item.."
-            android:layout_below="@+id/tripdetails_checklist_listview" />
+            android:layout_below="@+id/tripdetails_friends_listview" />
     </LinearLayout>
-
+</LinearLayout>
 </android.support.constraint.ConstraintLayout>

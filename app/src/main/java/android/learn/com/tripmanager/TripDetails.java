@@ -133,6 +133,8 @@ public class TripDetails extends AppCompatActivity {
                 return true;
             case R.id.tripfriends:
                 tempintent=new Intent(this,TripDetailsFriends.class);
+                tempintent.putExtra("mode","normal");
+                tempintent.putExtra("TripId",tempTrip.id);
                 startActivity(tempintent);
                 return true;
         }
