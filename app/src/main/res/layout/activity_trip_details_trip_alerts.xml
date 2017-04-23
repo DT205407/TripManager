@@ -32,8 +32,9 @@ tools:context="android.learn.com.tripmanager.TripDetailsTripAlerts" >
                 android:textSize="20dp"
                 android:padding="3dip" />
             <TextView
-              android:id="@+id/temp"
+              android:id="@+id/tempAvg"
                 android:gravity="right"
+                android:layout_marginTop="60dp"
                 android:textSize="20dp"
               android:textAlignment="center"
                 android:padding="3dip" />

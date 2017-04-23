@@ -108,7 +108,7 @@ public class TripDetailsTripAlerts extends AppCompatActivity {
         //String city="Rome,it";// get it from DB
 
         cityText = (TextView) findViewById(R.id.cityText);
-        temp = (TextView) findViewById(R.id.temp);
+        temp = (TextView) findViewById(R.id.tempAvg);
         hum = (TextView) findViewById(R.id.hum);
         press = (TextView) findViewById(R.id.press);
         windSpeed = (TextView) findViewById(R.id.windSpeed);
@@ -149,7 +149,6 @@ public class TripDetailsTripAlerts extends AppCompatActivity {
             windSpeed.setText(String.valueOf(list.wind.getSpeed()));
             press.setText(String.valueOf(list.currentCondition.getPressure()));
             hum.setText(String.valueOf(list.currentCondition.getHumidity()));
-            Log.d("Temperature- alerts---",String.valueOf(list.temperature.getTemp()));
             temp.setText(String.valueOf(list.temperature.getTemp()));
         }
     }
