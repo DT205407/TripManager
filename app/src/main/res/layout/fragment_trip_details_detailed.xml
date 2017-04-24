@@ -72,6 +72,7 @@
             <EditText
                 android:id="@+id/startdateedit"
                 android:layout_width="match_parent"
+                android:focusable="false"
                 android:gravity="right"
                 android:padding="3dip"
                 android:textAlignment="center" />
@@ -94,6 +95,7 @@
             <EditText
                 android:id="@+id/enddateedit"
                 android:layout_width="match_parent"
+                android:focusable="false"
                 android:gravity="right"
                 android:padding="3dip"
                 android:textAlignment="center" />

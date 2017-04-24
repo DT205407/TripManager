@@ -64,7 +64,7 @@ public class TripDetailsFriends extends AppCompatActivity {
 
         }
 
-        Trip trip=((DataAdapterTrips) this.getApplication()).getTrip(getIntent().getIntExtra("TripId",0));
+        Trip trip=((DataAdapterTrips) this.getApplication()).getTrip(getIntent().getIntExtra("TripId",0),getIntent().getStringExtra("upcomingorpast"));
 
         List<String> temp = new ArrayList<String>();
         if (trip.tripFriends.isEmpty()) {

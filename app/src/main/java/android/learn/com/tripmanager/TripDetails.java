@@ -5,6 +5,7 @@
 */
 package android.learn.com.tripmanager;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.TabLayout;
@@ -25,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -34,6 +36,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 //Test commit
@@ -55,7 +58,7 @@ public class TripDetails extends AppCompatActivity {
 
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
+    private  EditText startdate,enddate;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -73,7 +76,7 @@ public class TripDetails extends AppCompatActivity {
         //hides keyboard
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         final Intent i = getIntent();
-        tempTrip= ((DataAdapterTrips) this.getApplication()).getTrip(i.getIntExtra("TripId",0));
+        tempTrip= ((DataAdapterTrips) this.getApplication()).getTrip(i.getIntExtra("TripId",0),i.getStringExtra("upcomingorpast"));
 
 
         ActionBar actionbar = getSupportActionBar();
@@ -134,6 +137,7 @@ public class TripDetails extends AppCompatActivity {
             case R.id.tripfriends:
                 tempintent=new Intent(this,TripDetailsFriends.class);
                 tempintent.putExtra("mode","normal");
+                tempintent.putExtra("upcomingorpast",getIntent().getStringExtra("upcomingorpast"));
                 tempintent.putExtra("TripId",tempTrip.id);
                 startActivity(tempintent);
                 return true;
@@ -156,6 +160,7 @@ public class TripDetails extends AppCompatActivity {
 
         private static final String ARG_SECTION_NUMBER = "section_number";
 
+        private EditText startdate,enddate;
         public PlaceholderFragment() {
         }
 
@@ -171,10 +176,11 @@ public class TripDetails extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = null;
+            final View rootView2;
             TextView textView;
             ListView listView;
             List<String> temp = new ArrayList<String>();
-            Trip trip = ((DataAdapterTrips) getActivity().getApplication()).getTrips().get(getActivity().getIntent().getIntExtra("TripId",0));
+            final Trip trip = ((DataAdapterTrips) getActivity().getApplication()).getTrips(getActivity().getIntent().getStringExtra("upcomingorpast")).get(getActivity().getIntent().getIntExtra("TripId",0));
 
             switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
                 case 1:
@@ -216,6 +222,7 @@ public class TripDetails extends AppCompatActivity {
                             temp.putExtra("TripId",getActivity().getIntent().getIntExtra("TripId",0));
                             temp.putExtra("mode","edit");
                             temp.putExtra("currentscreen","TripDetailsItenary");
+                            temp.putExtra("upcomingorpast",getActivity().getIntent().getStringExtra("upcomingorpast"));
                             view.getContext().startActivity(temp);
                         }
                     });
@@ -229,6 +236,7 @@ public class TripDetails extends AppCompatActivity {
                             temp.putExtra("TripId",getActivity().getIntent().getIntExtra("TripId",0));
                             temp.putExtra("mode","normal");
                             temp.putExtra("currentscreen","TripDetailsItenary");
+                            temp.putExtra("upcomingorpast",getActivity().getIntent().getStringExtra("upcomingorpast"));
                             view.getContext().startActivity(temp);
 
                         }
@@ -239,27 +247,27 @@ public class TripDetails extends AppCompatActivity {
 
                     break;
                 case 2:
-                    rootView = inflater.inflate(R.layout.fragment_trip_details_detailed, container, false);
+                    rootView2 = inflater.inflate(R.layout.fragment_trip_details_detailed, container, false);
 
-
+                    startdatelistener(rootView2);
+                    enddatelistener(rootView2);
                     //if value is Homepage then normal checklist is diplayed
                     if(getActivity().getIntent().getStringExtra("mode").equals("normal"))
                     {
-                        showtripdetail(rootView,trip);
-                        ((FloatingActionButton) rootView.findViewById(R.id.savetripdetails)).setVisibility(View.GONE);
-                        ((FloatingActionButton) rootView.findViewById(R.id.edittripdetails)).setVisibility(View.VISIBLE);
+                        showtripdetail(rootView2,trip);
+                        ((FloatingActionButton) rootView2.findViewById(R.id.savetripdetails)).setVisibility(View.GONE);
+                        ((FloatingActionButton) rootView2.findViewById(R.id.edittripdetails)).setVisibility(View.VISIBLE);
 
                     }
                     //if it is TripDetailsEdit then edittrip screen is displayed
                     else
                     {
-                        edittripdetail(rootView, trip);
-                        ((FloatingActionButton) rootView.findViewById(R.id.savetripdetails)).setVisibility(View.VISIBLE);
-                        ((FloatingActionButton) rootView.findViewById(R.id.edittripdetails)).setVisibility(View.GONE);
+                        edittripdetail(rootView2, trip);
+                        ((FloatingActionButton) rootView2.findViewById(R.id.savetripdetails)).setVisibility(View.VISIBLE);
+                        ((FloatingActionButton) rootView2.findViewById(R.id.edittripdetails)).setVisibility(View.GONE);
 
                     }
-
-                    FloatingActionButton edittripdetails = (FloatingActionButton) rootView.findViewById(R.id.edittripdetails);
+                    FloatingActionButton edittripdetails = (FloatingActionButton) rootView2.findViewById(R.id.edittripdetails);
 
                     //Below code will help us to flip edit and save buttons
                     edittripdetails.setOnClickListener(new View.OnClickListener() {
@@ -269,25 +277,36 @@ public class TripDetails extends AppCompatActivity {
                             Intent temp=new Intent(view.getContext(),TripDetails.class);
                             temp.putExtra("TripId",getActivity().getIntent().getIntExtra("TripId",0));
                             temp.putExtra("mode","edit");
+                            temp.putExtra("upcomingorpast",getActivity().getIntent().getStringExtra("upcomingorpast"));
                             temp.putExtra("currentscreen","TripDetailsDetailed");
                             view.getContext().startActivity(temp);
                         }
                     });
 
-                    FloatingActionButton saveeditdetails = (FloatingActionButton) rootView.findViewById(R.id.savetripdetails);
+                    FloatingActionButton saveeditdetails = (FloatingActionButton) rootView2.findViewById(R.id.savetripdetails);
                     saveeditdetails.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                            Trip tempTrip= trip;
+                            tempTrip.source=((EditText) rootView2.findViewById(R.id.sourcecityedit)).getText().toString();
+                            tempTrip.destination=((EditText) rootView2.findViewById(R.id.desinationcityedit)).getText().toString();
+                            tempTrip.description=((EditText) rootView2.findViewById(R.id.descriptionedit)).getText().toString();
+                            //tempTrip.mode= ((Spinner)findViewById(R.id.travelmode));
+                            tempTrip.startdate=Trip.formatDate(((EditText) rootView2.findViewById(R.id.startdateedit)).getText().toString());
+                            tempTrip.enddate=Trip.formatDate(((EditText) rootView2.findViewById(R.id.enddateedit)).getText().toString());
+                            ((DataAdapterTrips) getActivity().getApplication()).updateTripinDatabase(tempTrip);
+
                             Intent temp=new Intent(view.getContext(),TripDetails.class);
                             temp.putExtra("TripId",getActivity().getIntent().getIntExtra("TripId",0));
                             temp.putExtra("mode","normal");
                             temp.putExtra("currentscreen","TripDetailsDetailed");
+                            temp.putExtra("upcomingorpast",getActivity().getIntent().getStringExtra("upcomingorpast"));
+
                             view.getContext().startActivity(temp);
 
                         }
                     });
-                    break;
+                    return rootView2;
                 case 3:
                     rootView = inflater.inflate(R.layout.fragment_trip_details_checklist, container, false);
                     //this is to check if you have any checklist
@@ -324,6 +343,7 @@ public class TripDetails extends AppCompatActivity {
                             temp.putExtra("TripId",getActivity().getIntent().getIntExtra("TripId",0));
                             temp.putExtra("mode","edit");
                             temp.putExtra("currentscreen","TripDetailsChecklist");
+                            temp.putExtra("upcomingorpast",getActivity().getIntent().getStringExtra("upcomingorpast"));
                             view.getContext().startActivity(temp);
                         }
                     });
@@ -332,10 +352,12 @@ public class TripDetails extends AppCompatActivity {
                     savechecklistdetails.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            ((DataAdapterTrips) getActivity().getApplication()).updateTripinDatabase(trip);
                             Intent temp=new Intent(view.getContext(),TripDetails.class);
                             temp.putExtra("TripId",getActivity().getIntent().getIntExtra("TripId",0));
                             temp.putExtra("mode","normal");
                             temp.putExtra("currentscreen","TripDetailsChecklist");
+                            temp.putExtra("upcomingorpast",getActivity().getIntent().getStringExtra("upcomingorpast"));
                             view.getContext().startActivity(temp);
 
                         }
@@ -381,6 +403,88 @@ public class TripDetails extends AppCompatActivity {
             ((TextView) view.findViewById(R.id.description)).setVisibility(View.GONE);
             ((TextView) view.findViewById(R.id.travelmode)).setVisibility(View.GONE);
         }
+
+        public  void  startdatelistener(final View view) {
+
+            startdate = (EditText) view.findViewById(R.id.startdateedit);
+            startdate.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    Calendar c = Calendar.getInstance();
+                    int mYear = c.get(Calendar.YEAR);
+                    int mMonth = c.get(Calendar.MONTH);
+                    int mDay = c.get(Calendar.DAY_OF_MONTH);
+                    DatePickerDialog dialog = new DatePickerDialog(view.getContext(),
+                            new mStartDateSetListener(), mYear, mMonth, mDay);
+                    dialog.show();
+                }
+            });
+        }
+
+
+        class mStartDateSetListener implements DatePickerDialog.OnDateSetListener {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                // getCalender();
+                int mYear = year;
+                int mMonth = monthOfYear;
+                int mDay = dayOfMonth;
+                startdate.setText(new StringBuilder()
+                        // Month is 0 based so add 1
+                        .append(mMonth + 1).append("/").append(mDay).append("/")
+                        .append(mYear).append(" "));
+
+
+            }
+        }
+
+
+        public  void enddatelistener(final View view) {
+
+            enddate = (EditText) view.findViewById(R.id.enddateedit);
+
+            //setdate(enddate);
+
+            enddate.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    Calendar c = Calendar.getInstance();
+                    int mYear = c.get(Calendar.YEAR);
+                    int mMonth = c.get(Calendar.MONTH);
+                    int mDay = c.get(Calendar.DAY_OF_MONTH);
+                    DatePickerDialog dialog = new DatePickerDialog(v.getContext(),
+                            new mEndDateSetListener(), mYear, mMonth, mDay);
+                    dialog.show();
+                }
+            });
+        }
+
+
+        class mEndDateSetListener implements DatePickerDialog.OnDateSetListener {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                // getCalender();
+                int mYear = year;
+                int mMonth = monthOfYear;
+                int mDay = dayOfMonth;
+                enddate.setText(new StringBuilder()
+                        // Month is 0 based so add 1
+                        .append(mMonth + 1).append("/").append(mDay).append("/")
+                        .append(mYear).append(" "));
+
+
+            }
+        }
     }
 
 
@@ -419,4 +523,7 @@ public class TripDetails extends AppCompatActivity {
             return null;
         }
     }
+
+
+
 }

@@ -31,7 +31,8 @@ import java.util.ArrayList;
 public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    static ArrayList<Trip> upcomingtrips=new DataAdapterTrips().getTrips();
+    static ArrayList<Trip> upcomingtrips=new DataAdapterTrips().getTrips("upcoming");
+    static ArrayList<Trip> pasttrips=new DataAdapterTrips().getTrips("past");
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
@@ -44,7 +45,7 @@ public class HomePage extends AppCompatActivity
 
         if(upcomingtrips.isEmpty())
         {
-            upcomingtrips=((DataAdapterTrips) this.getApplication()).getTrips();
+            upcomingtrips=((DataAdapterTrips) this.getApplication()).getTrips("upcoming");
         }
 
 
@@ -106,13 +107,11 @@ public class HomePage extends AppCompatActivity
         }
         @Override
         public boolean onContextItemSelected (MenuItem item){
-            Log.e("Test","Clicked");
             return true;
         }
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView1 = null,rootView2;
-            TextView textView;
+            View rootView1,rootView2;
             GridView gridView1,gridView2;
             switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
                 case 1:
@@ -129,6 +128,7 @@ public class HomePage extends AppCompatActivity
                             Intent tempIntent=new Intent(v.getContext(),TripDetails.class);
                             tempIntent.putExtra("TripId",position);
                             tempIntent.putExtra("previousscreen","HomePage");
+                            tempIntent.putExtra("upcomingorpast","upcoming");
                             tempIntent.putExtra("currentscreen","TripDetailsDetailed");
                             tempIntent.putExtra("mode","normal");
                             tempIntent.putExtra("TripName",upcomingtrips.get(position).name);
@@ -145,8 +145,27 @@ public class HomePage extends AppCompatActivity
                     // show current trips
                     rootView2 = inflater.inflate(R.layout.fragment_past_trips, container, false);
                     gridView2=(GridView) rootView2.findViewById(R.id.my_past_trips_grid_fragment2);
-                    gridView2.setAdapter(new TripsAdapter(rootView2.getContext()));
+                    gridView2.setAdapter(new PastTripsAdapter(rootView2.getContext()));
+                    gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
+                        public void onItemClick(AdapterView<?> parent, View v,
+                                                int position, long id) {
+                            Intent tempIntent=new Intent(v.getContext(),TripDetails.class);
+                            tempIntent.putExtra("TripId",position);
+                            tempIntent.putExtra("upcomingorpast","past");
+                            tempIntent.putExtra("previousscreen","HomePage");
+                            tempIntent.putExtra("currentscreen","TripDetailsDetailed");
+                            tempIntent.putExtra("mode","normal");
+                            tempIntent.putExtra("TripName",pasttrips.get(position).name);
+                            v.getContext().startActivity(tempIntent);
+                            //HomePage.this.finish();
+
+                        }
+                    });
+
                     return rootView2;
+
             }
             return null;
         }
@@ -242,6 +261,53 @@ public class HomePage extends AppCompatActivity
         }
     }
 
+    static class PastTripsAdapter extends BaseAdapter {
+        private Context mcontext;
+        public PastTripsAdapter(Context c) {
+            mcontext=c;
+        }
+
+        @Override
+        public int getCount() {
+            return pasttrips.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return pasttrips.get(position);
+        }
+
+        //look on this how to modify
+        @Override
+        public long getItemId(int position) {
+            return pasttrips.get(position).id;
+        }
+
+        class TileHolder{
+            TextView tile;
+            public TileHolder(View view){
+                tile=(TextView) view.findViewById(R.id.tileidtext);
+
+            }
+        }
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view=convertView;
+            TileHolder tileholder=null;
+            if (view==null){
+                LayoutInflater inflater=(LayoutInflater) mcontext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                view=inflater.inflate(R.layout.single_tile_in_grid,parent,false);
+                tileholder=new PastTripsAdapter.TileHolder(view);
+                view.setTag(tileholder);
+            }
+            else{
+                tileholder=(TileHolder) view.getTag();
+            }
+            Trip temp=pasttrips.get(position);
+            tileholder.tile.setText(temp.name);
+            return view;
+        }
+    }
 
     @Override
     public void onBackPressed() {
