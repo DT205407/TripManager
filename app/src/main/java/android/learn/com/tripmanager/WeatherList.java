@@ -6,7 +6,7 @@ import android.util.StringBuilderPrinter;
  * Created by Shraddhapiparia on 4/20/2017.
  */
 
-public class List{
+public class WeatherList {
     public CurrentCondition currentCondition = new CurrentCondition();
     public Temperature temperature = new Temperature();
     public Wind wind=new Wind();
@@ -49,7 +49,6 @@ public class List{
             return temp;
         }
         public void setTemp(float temp) {
-            Log.d("Temperature list ------", String.valueOf(temp));
             this.temp = temp;
         }
         public float getMinTemp() {

@@ -1,7 +1,5 @@
 package android.learn.com.tripmanager;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,31 +10,31 @@ import org.json.JSONObject;
 
 public class JSONWeatherParser {
 
-    public static List getWeather(String data) throws JSONException  {
+    public static WeatherList getWeather(String data) throws JSONException  {
 
 
         // We create out JSONObject from the data
         JSONObject jObj = new JSONObject(data);
-        List list= new List();
+        WeatherList weatherList = new WeatherList();
 
         JSONArray jArr = jObj.getJSONArray("list");
         JSONObject JSONWeather = jArr.getJSONObject(0);
         JSONObject mainObj = getObject("main", JSONWeather);
 
         //Humidity and Pressure
-        list.currentCondition.setHumidity(getInt("humidity", mainObj));
-        list.currentCondition.setPressure(getInt("pressure", mainObj));
+        weatherList.currentCondition.setHumidity(getInt("humidity", mainObj));
+        weatherList.currentCondition.setPressure(getInt("pressure", mainObj));
 
         //Temperature
-        list.temperature.setMaxTemp(getFloat("temp_max", mainObj));
-        list.temperature.setMinTemp(getFloat("temp_min", mainObj));
-        list.temperature.setTemp(getFloat("temp", mainObj));
+        weatherList.temperature.setMaxTemp(getFloat("temp_max", mainObj));
+        weatherList.temperature.setMinTemp(getFloat("temp_min", mainObj));
+        weatherList.temperature.setTemp(getFloat("temp", mainObj));
 
         // Wind
         JSONObject wObj = getObject("wind", JSONWeather);
-        list.wind.setSpeed(getFloat("speed", wObj));
+        weatherList.wind.setSpeed(getFloat("speed", wObj));
 
-        return list;
+        return weatherList;
     }
 
 

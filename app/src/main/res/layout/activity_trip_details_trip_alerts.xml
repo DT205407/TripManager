@@ -14,7 +14,7 @@ tools:context="android.learn.com.tripmanager.TripDetailsTripAlerts" >
             style="?android:attr/textAppearanceMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="40dp"
+            android:textSize="30dp"
             android:textColor="@color/black"
             android:layout_centerHorizontal="true" />
     </android.support.design.widget.AppBarLayout>

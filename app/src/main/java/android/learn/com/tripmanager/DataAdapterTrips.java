@@ -1,17 +1,19 @@
 package android.learn.com.tripmanager;
 
 import android.app.Application;
-import android.util.Base64;
 import android.util.Log;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -37,18 +39,39 @@ public class DataAdapterTrips extends Application {
         return upcomingtrips.get(id);
 }
 
-    public void getStats(){
-        int upcoming_trips=upcomingtrips.size();
-        int past_trips=5;
+    public String getTotalTrips() {
 
+        int no_of_upcoming_trips = upcomingtrips.size();
+        int no_of_past_trips = 5;
+        String no_of_trips = String.valueOf(no_of_past_trips + no_of_upcoming_trips);
 
-        for(Trip tempTrip: upcomingtrips){
+        return no_of_trips;
+    }
+    public String getTotalDays() {
+        long no_of_days = 0;
+        for (Trip tempTrip : upcomingtrips) {
+            Date stDate = tempTrip.startdate;
+            Date endDate = tempTrip.enddate;
+            no_of_days += endDate.getTime() - endDate.getTime();
+            Log.d("startdate---",String.valueOf(stDate.getTime()));
+            Log.d("enddate---",String.valueOf(endDate.getTime()));
+        }
+        return String.valueOf(no_of_days);
+    }
+    public String getTotalCities() {
 
+        Set<List<String>> citySet = new HashSet<List<String>>();
+
+        for (Trip tempTrip : upcomingtrips) {
+            citySet.add(Arrays.asList(tempTrip.destination));
         }
 
-        int no_of_cities;
-        int distance=2334;
+        return String.valueOf(citySet.size());
+    }
+    public String getTotalDistance(){
 
+        String distance="2334 Miles";
+        return distance;
     }
 
     public void addUpcomingTrips(Trip tempTrip){

@@ -4,17 +4,13 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.json.JSONException;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.StreamCorruptedException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -67,38 +63,6 @@ public class TripDetailsTripAlerts extends AppCompatActivity {
         return null;
 
     }
-/*
-    public byte[] getImage(String code) {
-        HttpURLConnection con = null ;
-        InputStream is = null;
-        try {
-            con = (HttpURLConnection) ( new URL(IMG_URL + code)).openConnection();
-            con.setRequestMethod("GET");
-            con.setDoInput(true);
-            con.setDoOutput(true);
-            con.connect();
-
-            // Let's read the response
-            is = con.getInputStream();
-            byte[] buffer = new byte[1024];
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-            while ( is.read(buffer) != -1)
-                baos.write(buffer);
-
-            return baos.toByteArray();
-        }
-        catch(Throwable t) {
-            t.printStackTrace();
-        }
-        finally {
-            try { is.close(); } catch(Throwable t) {}
-            try { con.disconnect(); } catch(Throwable t) {}
-        }
-
-        return null;
-
-    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,33 +87,33 @@ public class TripDetailsTripAlerts extends AppCompatActivity {
         task.execute(new String[]{city});
     }
 
-    private class JSONWeatherTask extends AsyncTask<String, Void, List> {
-        List list = new List();
+    private class JSONWeatherTask extends AsyncTask<String, Void, WeatherList> {
+        WeatherList weatherList = new WeatherList();
         @Override
-        protected List doInBackground(String... params) {
+        protected WeatherList doInBackground(String... params) {
 
             String data = ((new WeatherHttpClient()).getWeatherData(params[0]));
 
             try {
-                list = JSONWeatherParser.getWeather(data);
+                weatherList = JSONWeatherParser.getWeather(data);
 
                 // Let's retrieve the icon
-                //List.iconData = ((new WeatherHttpClient()).getImage(list.currentCondition.getIcon()));
+                //WeatherList.iconData = ((new WeatherHttpClient()).getImage(weatherList.currentCondition.getIcon()));
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            return list;
+            return weatherList;
 
         }
-        protected  void onPostExecute(List list)
+        protected  void onPostExecute(WeatherList weatherList)
         {
-            super.onPostExecute(list);
+            super.onPostExecute(weatherList);
 
-            windSpeed.setText(String.valueOf(list.wind.getSpeed()));
-            press.setText(String.valueOf(list.currentCondition.getPressure()));
-            hum.setText(String.valueOf(list.currentCondition.getHumidity()));
-            temp.setText(String.valueOf(list.temperature.getTemp()));
+            windSpeed.setText(String.valueOf(weatherList.wind.getSpeed()));
+            press.setText(String.valueOf(weatherList.currentCondition.getPressure()));
+            hum.setText(String.valueOf(weatherList.currentCondition.getHumidity()));
+            temp.setText(String.valueOf(weatherList.temperature.getTemp()));
         }
     }
 }
