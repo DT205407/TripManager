@@ -78,7 +78,7 @@ public class TripDetailsTripAlerts extends AppCompatActivity {
         windSpeed = (TextView) findViewById(R.id.windSpeed);
 
         Intent i = getIntent();
-        currenttrip= ((DataAdapterTrips) this.getApplication()).getTrip(i.getIntExtra("TripId2",0)-1);
+        currenttrip= ((DataAdapterTrips) this.getApplication()).getTrip(i.getIntExtra("TripId",0),i.getStringExtra("upcomingorpast"));
 
         cityText.setText(currenttrip.destination);
         String city=currenttrip.destination;

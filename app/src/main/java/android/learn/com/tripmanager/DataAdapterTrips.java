@@ -10,7 +10,11 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -70,7 +74,41 @@ public class DataAdapterTrips extends Application {
         }
 
     }
+    public String getTotalTrips() {
 
+        int no_of_upcoming_trips = upcomingtrips.size();
+        int no_of_past_trips = 5;
+        String no_of_trips = String.valueOf(no_of_past_trips + no_of_upcoming_trips);
+
+        return no_of_trips;
+    }
+    public String getTotalDays() {
+        long no_of_days = 0;
+        for (Trip tempTrip : upcomingtrips) {
+            Date stDate = tempTrip.startdate;
+            Date endDate = tempTrip.enddate;
+            no_of_days += endDate.getTime() - stDate.getTime();
+            Log.d("startdate---",String.valueOf(stDate.getTime()));
+            Log.d("enddate---",String.valueOf(endDate.getTime()));
+        }
+        return String.valueOf(no_of_days);
+    }
+    public String getTotalCities() {
+
+        Set<List<String>> citySet = new HashSet<List<String>>();
+
+        for (Trip tempTrip : upcomingtrips) {
+
+            citySet.add(Arrays.asList(tempTrip.destination));
+        }
+
+        return String.valueOf(citySet.size());
+    }
+    public String getTotalDistance(){
+
+        String distance="2334 Miles";
+        return distance;
+    }
 
     public void addUpcomingTrips(Trip tempTrip){
         tempTrip.id=upcomingtrips.size()+1;

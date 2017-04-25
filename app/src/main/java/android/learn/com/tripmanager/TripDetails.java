@@ -132,6 +132,8 @@ public class TripDetails extends AppCompatActivity {
                 return true;
             case R.id.alerts:
                 tempintent=new Intent(this,TripDetailsTripAlerts.class);
+                tempintent.putExtra("TripId",getIntent().getIntExtra("TripId",0));
+                tempintent.putExtra("upcomingorpast",getIntent().getStringExtra("upcomingorpast"));
                 startActivity(tempintent);
                 return true;
             case R.id.tripfriends:
