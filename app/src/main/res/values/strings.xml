@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TM</string>
+    <string name="app_name">TripManager</string>
     <string name="title_activity_login">Sign in</string>
     <string name="signInButton">Sign in</string>
     <string name="signUpButton">Sign up</string>
