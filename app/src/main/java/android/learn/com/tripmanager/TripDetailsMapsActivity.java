@@ -52,11 +52,11 @@ public class TripDetailsMapsActivity extends FragmentActivity implements OnMapRe
         LatLng destinationcity=new LatLng(32.7767,96.7970);
         List<Address> addresses;
         try {
-            //addresses=geocoder.getFromLocationName(tempIntent.getStringExtra("sourcecity"),1);
-            addresses=geocoder.getFromLocationName("Dallas",1);
+            addresses=geocoder.getFromLocationName(tempIntent.getStringExtra("sourcecity"),1);
+            //addresses=geocoder.getFromLocationName("Dallas",1);
             sourcecity=new LatLng(addresses.get(0).getLatitude(),addresses.get(0).getLongitude());
-            //addresses=geocoder.getFromLocationName(tempIntent.getStringExtra("destinationcity"),1);
-            addresses=geocoder.getFromLocationName("Chicago",1);
+            addresses=geocoder.getFromLocationName(tempIntent.getStringExtra("destinationcity"),1);
+            //addresses=geocoder.getFromLocationName("Chicago",1);
             destinationcity=new LatLng(addresses.get(0).getLatitude(),addresses.get(0).getLongitude());
         } catch (IOException e) {
             e.printStackTrace();
