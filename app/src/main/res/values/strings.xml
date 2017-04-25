@@ -35,7 +35,7 @@
     <string name="totalDays">Total no of days</string>
     <string name="totalCities">Total no of cities</string>
     <string name="totalDistance">Total distance covered</string>
-
+    <string name="bike">Bike</string>
     <string name="bus">Bus</string>
     <string name="plane">Plane</string>
     <string name="car">Car</string>
