@@ -344,11 +344,7 @@ public class HomePage extends AppCompatActivity
         } else if (id == R.id.stats) {
             tempIntent= new Intent(this, TravelHistoryStats.class);
             startActivity(tempIntent);
-        } else if (id == R.id.pastTrips) {
-            tempIntent= new Intent(this, MyPastTrips.class);
-            startActivity(tempIntent);
-
-        } else if (id == R.id.editProfile) {
+        }  else if (id == R.id.editProfile) {
             tempIntent= new Intent(this, EditUserProfile.class);
             startActivity(tempIntent);
 

@@ -42,8 +42,18 @@ public class CreateTrip extends AppCompatActivity {
         tempTrip.source=((EditText) findViewById(R.id.sourcecity)).getText().toString();
         tempTrip.destination=((EditText) findViewById(R.id.desinationcity)).getText().toString();
         tempTrip.description=((EditText) findViewById(R.id.descriptionvalue)).getText().toString();
-        //tempTrip.mode= ((Spinner)findViewById(R.id.travelmode));
-        tempTrip.mode=Mode.car;
+        switch (((Spinner)findViewById(R.id.travelmode)).getSelectedItem().toString()){
+            case "Bike":
+                tempTrip.mode= Mode.bike; break;
+            case "Car":
+                tempTrip.mode= Mode.car; break;
+            case "Train":
+                tempTrip.mode= Mode.train; break;
+            case "Plane":
+                tempTrip.mode= Mode.plane; break;
+            default:
+                tempTrip.mode=Mode.car;
+        }
         tempTrip.startdate=Trip.formatDate(((EditText) findViewById(R.id.startdate)).getText().toString());
         tempTrip.enddate=Trip.formatDate(((EditText) findViewById(R.id.enddate)).getText().toString());
 

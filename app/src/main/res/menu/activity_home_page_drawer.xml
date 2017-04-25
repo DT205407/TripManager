@@ -9,9 +9,6 @@
             android:id="@+id/stats"
             android:title="Stats" />
         <item
-            android:id="@+id/pastTrips"
-            android:title="Past Trips" />
-        <item
             android:id="@+id/editProfile"
             android:title="Edit Profile" />
 

@@ -12,7 +12,19 @@ import java.util.Random;
  * Created by Gopikrishna on 3/20/2017.
  */
 
-enum Mode { bike ,car, train, plane};
+enum Mode { bike ,car, train, plane;
+
+    @Override
+    public String toString() {
+        switch (this){
+            case bike:return "Bike";
+            case car:return "Car";
+            case train:return "Train";
+            case plane:return "Plane";
+            default:return "Car";
+        }
+    }
+};
 @SuppressWarnings("serial")
 public class Trip implements Serializable{
     public int id;

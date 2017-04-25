@@ -24,7 +24,7 @@ public class TripDetailsFriends extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+        final Trip trip=((DataAdapterTrips) this.getApplication()).getTrip(getIntent().getIntExtra("TripId",0),getIntent().getStringExtra("upcomingorpast"));
         FloatingActionButton tripaddfriend = (FloatingActionButton) findViewById(R.id.addfriend);
         tripaddfriend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,6 +32,7 @@ public class TripDetailsFriends extends AppCompatActivity {
                 Intent temp=new Intent(view.getContext(),TripDetailsFriends.class);
                 temp.putExtra("TripId",getIntent().getIntExtra("TripId",0));
                 temp.putExtra("mode","edit");
+                temp.putExtra("upcomingorpast",getIntent().getStringExtra("upcomingorpast"));
                 startActivity(temp);
             }
         });
@@ -40,8 +41,13 @@ public class TripDetailsFriends extends AppCompatActivity {
         tripsavefriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                trip.tripFriends.add(((EditText) findViewById(R.id.addnewfriend)).getText().toString());
+                ((DataAdapterTrips) getApplication()).updateTrip(getIntent().getStringExtra("upcomingorpast"),trip);
+                ((DataAdapterTrips) getApplication()).updateTripinDatabase(trip);
                 Intent temp=new Intent(view.getContext(),TripDetailsFriends.class);
                 temp.putExtra("TripId",getIntent().getIntExtra("TripId",0));
+                temp.putExtra("upcomingorpast",getIntent().getStringExtra("upcomingorpast"));
                 temp.putExtra("mode","normal");
                 startActivity(temp);
             }
@@ -64,11 +70,12 @@ public class TripDetailsFriends extends AppCompatActivity {
 
         }
 
-        Trip trip=((DataAdapterTrips) this.getApplication()).getTrip(getIntent().getIntExtra("TripId",0),getIntent().getStringExtra("upcomingorpast"));
+
 
         List<String> temp = new ArrayList<String>();
         if (trip.tripFriends.isEmpty()) {
-            temp.add("There is nothing yet! Click Add button to add more");
+            temp.add(" ");
+            //temp.add("There is nothing yet! Click Add button to add more");
         } else {
             temp = trip.tripFriends;
         }

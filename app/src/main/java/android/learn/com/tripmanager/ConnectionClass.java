@@ -36,6 +36,7 @@ public class ConnectionClass {
                     + "databaseName=" + db + ";user=" + un + ";password="
                     + password + ";";
             conn = DriverManager.getConnection(ConnURL);
+
         } catch (SQLException se) {
             Log.e("ERRO", se.getMessage());
         } catch (ClassNotFoundException e) {
@@ -44,6 +45,7 @@ public class ConnectionClass {
         } catch (Exception e) {
             Log.e("ERRO", e.getMessage());
         }
+        Log.e("retuned Null", "connection failed");
         return conn;
     }
 

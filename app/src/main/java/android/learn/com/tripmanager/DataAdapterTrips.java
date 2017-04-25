@@ -1,14 +1,9 @@
 package android.learn.com.tripmanager;
 
 import android.app.Application;
-import android.util.Base64;
 import android.util.Log;
-
 import com.google.gson.Gson;
-
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -51,6 +46,32 @@ public class DataAdapterTrips extends Application {
 
 }
 
+    public void updateTrip(String upcomingorpast,Trip trip){
+        if(upcomingorpast.equals("upcoming")){
+
+            for (Trip temp:upcomingtrips){
+                if (temp.id==trip.id){
+                    upcomingtrips.remove(temp);
+                    break;
+                }
+            }
+            upcomingtrips.add(trip);
+        }
+        else
+        {
+
+            for (Trip temp:pastTrips){
+                if (temp.id==trip.id){
+                    pastTrips.remove(temp);
+                    break;
+                }
+            }
+            pastTrips.add(trip);
+        }
+
+    }
+
+
     public void addUpcomingTrips(Trip tempTrip){
         tempTrip.id=upcomingtrips.size()+1;
         this.upcomingtrips.add(tempTrip);
@@ -61,12 +82,19 @@ public class DataAdapterTrips extends Application {
         String z=new String();
         SimpleDateFormat sdftoday = new SimpleDateFormat("mm/DD/yyyy"),sdfdate=new SimpleDateFormat("MM/dd/yyyy");
         Date today=new Date();
-        Gson gson=new Gson();
+        Gson gson=new Gson(),gsonItinerary=new Gson(),gsonfriends=new Gson();
         try {
             today= sdftoday.parse(sdftoday.format(new Date() ));
         }
         catch (ParseException e) {
         }
+        ArrayList<String> temp = new ArrayList<>();
+        temp.add("Charger");
+        temp.add("Camera");
+
+        ArrayList<String> tempItenary = new ArrayList<>();
+        tempItenary.add("Today\n\nGo to Restaurent and meet client");
+        tempItenary.add("Tommorow\n\nGo to beach");
         ArrayList<String> friends = new ArrayList<>();
         friends.add("Gopi");
         friends.add("Shraddha");
@@ -75,18 +103,16 @@ public class DataAdapterTrips extends Application {
             Connection con = new ConnectionClass().CONN();
             if (con == null) {
                 z = "Error in connection with SQL server";
+                upcomingtrips.add(new Trip(1, "Trip 1", "Dallas", "Florida", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey first Trip", Mode.car));
+                pastTrips.add(new Trip(2, "Trip 2", "Dallas", "Florida", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey Second Trip", Mode.car, null, temp,friends));
+                pastTrips.add(new Trip(3, "Trip 3", "Dallas", "Florida", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey third Trip", Mode.car, null, temp,friends));
+                upcomingtrips.add(new Trip(4, "Trip 4", "Dallas", "Florida", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey fourth Trip", Mode.car));
             } else {
                 String query = "select * from tblTrips1";
                 Statement stmt = con.createStatement();
                 ResultSet rs = stmt.executeQuery(query);
-                ArrayList<String> temp = new ArrayList<>();
-                temp.add("Charger");
-                temp.add("Camera");
 
-                ArrayList<String> tempItenary = new ArrayList<>();
-                tempItenary.add("Today\n\nGo to Restaurent and meet client");
-                tempItenary.add("Tommorow\n\nGo to beach");
-                z = "Login successfull";
+                z = "Login successful";
 
                 while(rs.next())
                 {
@@ -102,9 +128,9 @@ public class DataAdapterTrips extends Application {
                                         Trip.formatDate(rs.getString("enddate")),
                                         rs.getString("tripdescription"),
                                         rs.getString("mode"),
-                                        tempItenary,
+                                        gsonItinerary.fromJson(rs.getString("itinerary"),ArrayList.class),
                                         gson.fromJson(rs.getString("checklist"),ArrayList.class),
-                                        friends
+                                        gsonfriends.fromJson(rs.getString("friends"),ArrayList.class)
                                 ));
                     }
                     else
@@ -119,9 +145,9 @@ public class DataAdapterTrips extends Application {
                                         Trip.formatDate(rs.getString("enddate")),
                                         rs.getString("tripdescription"),
                                         rs.getString("mode"),
-                                        tempItenary,
-                                        temp,
-                                        friends
+                                        gsonItinerary.fromJson(rs.getString("itinerary"),ArrayList.class),
+                                        gson.fromJson(rs.getString("checklist"),ArrayList.class),
+                                        gsonfriends.fromJson(rs.getString("friends"),ArrayList.class)
                                 ));
                     }
                 }
@@ -132,19 +158,15 @@ public class DataAdapterTrips extends Application {
         catch (Exception ex)
         {
             z = "Exceptions";
-            ArrayList<String> temp = new ArrayList<>();
-            temp.add("Charger");
-            temp.add("Camera");
-            temp.add("Torch");
 
+            Log.e("Sql server catch",z);
             upcomingtrips.add(new Trip(1, "Trip 1", "Dallas", "Florida", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey first Trip", Mode.car));
             pastTrips.add(new Trip(2, "Trip 2", "Dallas", "Florida", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey Second Trip", Mode.car, null, temp,friends));
             pastTrips.add(new Trip(3, "Trip 3", "Dallas", "Florida", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey third Trip", Mode.car, null, temp,friends));
             upcomingtrips.add(new Trip(4, "Trip 4", "Dallas", "Florida", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey fourth Trip", Mode.car));
-            upcomingtrips.add(new Trip(5, "Trip 5", "Dallas", "Florida", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey fifth Trip", Mode.car));
         }
         finally {
-            Log.e("Sql server Message",z);
+            Log.e("Sql server getTrips",z);
     }
     }
 
@@ -187,6 +209,7 @@ public class DataAdapterTrips extends Application {
     public void updateTripinDatabase(Trip trip){
         String z=new String();
         Gson gson=new Gson();
+
         String query="";
 
         //gson.fromJson(gson.toJson(trip.checklist),ArrayList.class);
@@ -205,7 +228,9 @@ public class DataAdapterTrips extends Application {
                         "\n           [enddate]= '" +Trip.datetostring(trip.enddate)+"',"+
                         "\n           [tripdescription]= '" +trip.description+"',"+
                         "\n           [mode]= '" +trip.mode.toString()+"', "+
-                        "\n           [checklist]= '" +gson.toJson(trip.checklist)+"' "+
+                        "\n           [itinerary]= '" +gson.toJson(trip.itinerary)+"', "+
+                        "\n           [checklist]= '" +gson.toJson(trip.checklist)+"', "+
+                        "\n           [friends]= '" +gson.toJson(trip.tripFriends)+"' "+
                         "\n     where Id="+trip.id;
                 Statement stmt = con.createStatement();
 
@@ -225,9 +250,5 @@ public class DataAdapterTrips extends Application {
         }
     }
 
-    //we have to write a function that can encode arraylist to string and them decode back
-    private static void fromString( String s ) throws IOException,
-            ClassNotFoundException {
 
-    }
 }
