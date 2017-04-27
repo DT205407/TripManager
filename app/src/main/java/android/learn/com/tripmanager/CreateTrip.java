@@ -35,6 +35,17 @@ public class CreateTrip extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this,HomePage.class));
+    }
+
     //this is button click action
     public void onAddTripClick(View view)
     {
@@ -71,9 +82,6 @@ public class CreateTrip extends AppCompatActivity {
     public void startdatelistener() {
 
         startdate = (EditText) findViewById(R.id.startdate);
-
-        //setdate(startdate);
-
         startdate.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -86,6 +94,7 @@ public class CreateTrip extends AppCompatActivity {
                 DatePickerDialog dialog = new DatePickerDialog(CreateTrip.this,
                         new mStartDateSetListener(), mYear, mMonth, mDay);
                 dialog.show();
+                ((EditText) findViewById(R.id.enddate)).requestFocus();
             }
         });
     }
@@ -115,8 +124,6 @@ public class CreateTrip extends AppCompatActivity {
 
         enddate = (EditText) findViewById(R.id.enddate);
 
-        //setdate(enddate);
-
         enddate.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -129,8 +136,11 @@ public class CreateTrip extends AppCompatActivity {
                 DatePickerDialog dialog = new DatePickerDialog(CreateTrip.this,
                         new mEndDateSetListener(), mYear, mMonth, mDay);
                 dialog.show();
+                ((EditText) findViewById(R.id.descriptionvalue)).requestFocus();
             }
         });
+
+
     }
 
 

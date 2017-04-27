@@ -27,6 +27,15 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
+import java.util.Currency;
+
+import studios.codelight.smartloginlibrary.LoginType;
+import studios.codelight.smartloginlibrary.SmartLogin;
+import studios.codelight.smartloginlibrary.SmartLoginFactory;
+import studios.codelight.smartloginlibrary.UserSessionManager;
+import studios.codelight.smartloginlibrary.users.SmartFacebookUser;
+import studios.codelight.smartloginlibrary.users.SmartGoogleUser;
+import studios.codelight.smartloginlibrary.users.SmartUser;
 
 public class HomePage extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -352,6 +361,20 @@ public class HomePage extends AppCompatActivity
             tempIntent= new Intent(this, AboutPageTripManager.class);
             startActivity(tempIntent);
         } else if (id == R.id.logout) {
+
+            SmartUser currentUser=UserSessionManager.getCurrentUser(this);
+            SmartLogin smartLogin;
+            if (currentUser instanceof SmartFacebookUser) {
+                smartLogin = SmartLoginFactory.build(LoginType.Facebook);
+            } else if(currentUser instanceof SmartGoogleUser) {
+                smartLogin = SmartLoginFactory.build(LoginType.Google);
+            } else {
+                smartLogin = SmartLoginFactory.build(LoginType.CustomLogin);
+            }
+            boolean result = smartLogin.logout(HomePage.this);
+            if (result) {
+                Toast.makeText(HomePage.this, "User logged out successfully", Toast.LENGTH_SHORT).show();
+            }
             tempIntent= new Intent(this, SignInActivity.class);
             startActivity(tempIntent);
 
