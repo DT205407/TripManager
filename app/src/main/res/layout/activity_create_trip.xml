@@ -114,6 +114,7 @@
                     android:id="@+id/mode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
                     android:text="@string/mode"
                     android:textSize="8pt" />
 
@@ -122,36 +123,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:entries="@array/modelist"
-                    android:paddingLeft="75dp"
-                    android:paddingStart="75dp" />
+                    android:paddingLeft="70dp"
+                    android:paddingStart="70dp" />
 
             </LinearLayout>
 
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="10dp">
-
-                <TextView
-                    android:id="@+id/tripimage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tripimage"
-                    android:textSize="8pt" />
-
-                <ImageButton
-                    android:id="@+id/tripImagebutton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:background="@null"
-                    android:paddingLeft="35dp"
-                    android:paddingStart="35dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/camera" />
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

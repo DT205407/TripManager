@@ -1,13 +1,14 @@
 package android.learn.com.tripmanager;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
 
-
+import com.google.android.gms.cast.CastRemoteDisplayLocalService;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -15,9 +16,19 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 public class TripDetailsMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -66,11 +77,26 @@ public class TripDetailsMapsActivity extends FragmentActivity implements OnMapRe
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
 
-        mMap.addMarker(new MarkerOptions().position(sourcecity).title("Dallas").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+        mMap.addMarker(new MarkerOptions().position(sourcecity).title(tempIntent.getStringExtra("sourcecity")).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sourcecity));
 
-        mMap.addMarker(new MarkerOptions().position(destinationcity).title("Chicago").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+        mMap.addMarker(new MarkerOptions().position(destinationcity).title(tempIntent.getStringExtra("destinationcity")).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
         //mMap.getMinZoomLevel();
         mMap.animateCamera( CameraUpdateFactory.zoomTo( 4.0f ) );
+
+
+        PolylineOptions options = new PolylineOptions();
+
+        options.color( Color.parseColor( "#CC0000FF" ) );
+        options.width( 5 );
+        options.visible( true );
+
+        options.add(sourcecity);
+        options.add(destinationcity);
+
+        mMap.addPolyline( options );
+
     }
+
+
 }

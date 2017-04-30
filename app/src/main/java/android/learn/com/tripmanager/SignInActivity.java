@@ -4,102 +4,141 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
-import studios.codelight.smartloginlibrary.SmartCustomLoginListener;
-import studios.codelight.smartloginlibrary.SmartLoginBuilder;
+import studios.codelight.smartloginlibrary.LoginType;
+import studios.codelight.smartloginlibrary.SmartLogin;
+import studios.codelight.smartloginlibrary.SmartLoginCallbacks;
 import studios.codelight.smartloginlibrary.SmartLoginConfig;
-import studios.codelight.smartloginlibrary.users.SmartGoogleUser;
+import studios.codelight.smartloginlibrary.SmartLoginFactory;
+import studios.codelight.smartloginlibrary.UserSessionManager;
 import studios.codelight.smartloginlibrary.users.SmartUser;
+import studios.codelight.smartloginlibrary.util.SmartLoginException;
 
-public class SignInActivity extends AppCompatActivity  {
+public class SignInActivity extends AppCompatActivity implements SmartLoginCallbacks {
 
-    final boolean SUCCESS=true;
-    SmartCustomLoginListener loginListener = new SmartCustomLoginListener() {
-        @Override
-        public boolean customSignin(SmartUser smartUser) {
-            //do something with smartUser
-            if(SUCCESS){
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        @Override
-        public boolean customSignup(SmartUser smartUser) {
-            //do something with smartUser
-            if(SUCCESS){
-                //startActivity(new Intent(getBaseContext(),SignInActivity.class));
-                startActivity(new Intent(getBaseContext(),SignInActivity.class));
-                Toast.makeText(SignInActivity.this, "Succesfully Created Account!", Toast.LENGTH_SHORT).show();
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        @Override
-        public boolean customUserSignout(SmartUser smartUser) {
-            //do something with smartUser
-            if(SUCCESS){
-                return true;
-            } else {
-                return false;
-            }
-        }
-    };
-
+    private Button facebookLoginButton, googleLoginButton, customSigninButton, customSignupButton;
+    private EditText emailEditText, passwordEditText;
+    SmartUser currentUser;
+    SmartLoginConfig config;
+    SmartLogin smartLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_sign_in_page);
+        bindViews();
+        setListeners();
         // Set up the login form.
-        SmartLoginBuilder loginBuilder = new SmartLoginBuilder();
+        config= new SmartLoginConfig(this,this);
+        config.setGoogleApiClient(null);
 
-        Intent intent = loginBuilder.with(this)
-                .isGoogleLoginEnabled(true)
-                .isFacebookLoginEnabled(false)
-                .isCustomLoginEnabled(true).setSmartCustomLoginHelper(loginListener)
-                .build();
-        startActivityForResult(intent, SmartLoginConfig.LOGIN_REQUEST);
-
-        //hides keyboard
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
-
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //Intent "data" contains the user object
-        Intent homepageIntent;
-        if(resultCode == SmartLoginConfig.GOOGLE_LOGIN_REQUEST){
-            SmartGoogleUser user;
-            try {
-                user = data.getParcelableExtra(SmartLoginConfig.USER);
-                Toast.makeText(this, "Succesfully Logged In!", Toast.LENGTH_SHORT).show();
-                //use this user object as per your requirement
-                homepageIntent = new Intent(this,HomePage.class);
-                startActivity(homepageIntent);
+    protected void onResume() {
+        super.onResume();
+        currentUser = UserSessionManager.getCurrentUser(this);
+        refreshLayout();
+    }
 
-            }catch (Exception e){
-                Log.e(getClass().getSimpleName(), e.getMessage());
-            }
-        }else if(resultCode == SmartLoginConfig.CUSTOM_LOGIN_REQUEST){
-            SmartUser user = data.getParcelableExtra(SmartLoginConfig.USER);
-            //use this user object as per your requirement
-            Toast.makeText(this, "Succesfully Logged In!", Toast.LENGTH_SHORT).show();
-            homepageIntent = new Intent(this,HomePage.class);
-            startActivity(homepageIntent);
-
-
-        }else if(resultCode == RESULT_CANCELED){
-            //Login Failed
+    private void refreshLayout() {
+        currentUser = UserSessionManager.getCurrentUser(this);
+        if (currentUser != null) {
+            Log.d("Smart Login", "Logged in user: " + currentUser.toString());
+            Intent intent = new Intent(this,HomePage.class);
+            startActivity(intent);
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (smartLogin != null) {
+            smartLogin.onActivityResult(requestCode, resultCode, data, config);
+        }
+    }
+
+    private void setListeners() {
+        facebookLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Perform Facebook login
+                smartLogin = SmartLoginFactory.build(LoginType.Facebook);
+                smartLogin.login(config);
+
+            }
+        });
+
+        googleLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Perform Google login
+                smartLogin = SmartLoginFactory.build(LoginType.Google);
+                smartLogin.login(config);
+            }
+        });
+
+        customSigninButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Perform custom sign in
+                smartLogin = SmartLoginFactory.build(LoginType.CustomLogin);
+                smartLogin.login(config);
+            }
+        });
+
+        customSignupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Perform custom sign up
+                //smartLogin = SmartLoginFactory.build(LoginType.CustomLogin);
+                //smartLogin.signup(config);
+                Toast.makeText(SignInActivity.this, "Successfully Created Account!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
+
+    private void bindViews() {
+        facebookLoginButton = (Button) findViewById(R.id.facebook_login_button);
+        googleLoginButton = (Button) findViewById(R.id.google_login_button);
+        customSigninButton = (Button) findViewById(R.id.custom_signin_button);
+        customSignupButton = (Button) findViewById(R.id.custom_signup_button);
+        emailEditText = (EditText) findViewById(R.id.email_edittext);
+        passwordEditText = (EditText) findViewById(R.id.password_edittext);
+    }
+
+    @Override
+    public void onLoginSuccess(SmartUser user) {
+        Toast.makeText(this, user.toString(), Toast.LENGTH_SHORT).show();
+        refreshLayout();
+    }
+
+    @Override
+    public void onLoginFailure(SmartLoginException e) {
+        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public SmartUser doCustomLogin() {
+        SmartUser user = new SmartUser();
+        user.setEmail(emailEditText.getText().toString());
+        return user;
+    }
+
+    @Override
+    public SmartUser doCustomSignup() {
+        SmartUser user = new SmartUser();
+        user.setEmail(emailEditText.getText().toString());
+        return user;
+    }
+
 }
 
