@@ -8,16 +8,78 @@ tools:context="android.learn.com.tripmanager.TripDetailsTripAlerts" >
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme">
-        <TextView
-            android:id="@+id/cityText"
-            style="?android:attr/textAppearanceMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="30dp"
-            android:textColor="@color/black"
-            android:layout_centerHorizontal="true" />
+        android:theme="@style/AppTheme1">
+
+
     </android.support.design.widget.AppBarLayout>
+    <TextView
+        android:id="@+id/cityText"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:textSize="30dp" />
+    <ImageView
+        android:id="@+id/condIcon"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentLeft="true" />
+    <TextView
+        android:id="@+id/iconDescription"
+        android:layout_marginTop="150dp"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:textSize="30dp" />
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/chart1"
+        android:layout_marginTop="300dp"
+        android:layout_marginLeft="10dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"/>
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/chart2"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="300dp"
+        android:layout_marginLeft="135dp" />
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/chart3"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="300dp"
+        android:layout_marginLeft="260dp"/>
+
+    <!--TextView
+        android:id="@+id/tvXMax"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/chart1"
+        android:layout_alignParentRight="true"
+        android:text="500"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="10dp"
+        android:gravity="right"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/tvYMax"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvXMax"
+        android:layout_alignParentRight="true"
+        android:text="500"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="10dp"
+        android:gravity="right"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -85,6 +147,6 @@ tools:context="android.learn.com.tripmanager.TripDetailsTripAlerts" >
             android:padding="3dip" />
     </TableRow>
 
-    </TableLayout>
+    </TableLayout-->
 
 </RelativeLayout>

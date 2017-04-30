@@ -34,6 +34,11 @@ public class JSONWeatherParser {
         JSONObject wObj = getObject("wind", JSONWeather);
         weatherList.wind.setSpeed(getFloat("speed", wObj));
 
+        //weatherIcon
+        JSONObject iVal= JSONWeather.getJSONArray("weather").getJSONObject(0);
+        weatherList.weather.setIcon(getString("icon",iVal));
+        weatherList.weather.setIconDesc(getString("description",iVal));
+
         return weatherList;
     }
 

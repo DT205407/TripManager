@@ -9,13 +9,16 @@ import android.util.StringBuilderPrinter;
 public class WeatherList {
     public CurrentCondition currentCondition = new CurrentCondition();
     public Temperature temperature = new Temperature();
+    public Weather weather=new Weather();
     public Wind wind=new Wind();
+    public byte[] iconData;
 
     public  class CurrentCondition {
 
         private float pressure;
         private float humidity;
         private String condition;
+
 
         public String getCondition() {
             return condition;
@@ -80,6 +83,30 @@ public class WeatherList {
         public void setDeg(float deg) {
             this.deg = deg;
         }
+
+
+    }
+    public class Weather{
+        private String icon;
+        private String iconDesc;
+
+        public void setIconDesc(String iconDesc) {
+            this.iconDesc = iconDesc;
+        }
+
+        public String getIconDesc() {
+            return iconDesc;
+        }
+
+
+        public String getIcon() {
+            return icon;
+        }
+
+        public void setIcon(String icon) {
+            this.icon = icon;
+        }
+
 
 
     }
