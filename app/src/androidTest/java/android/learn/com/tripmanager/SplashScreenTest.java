@@ -48,18 +48,6 @@ public class SplashScreenTest {
         //    e.printStackTrace();
         //}
 
-        ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.userNameEditText), isDisplayed()));
-        appCompatEditText.perform(replaceText("gffgf"), closeSoftKeyboard());
-
-        ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.userNameEditText), withText("gffgf"), isDisplayed()));
-        appCompatEditText2.perform(click());
-
-        ViewInteraction appCompatEditText3 = onView(
-                allOf(withId(R.id.passwordEditText), isDisplayed()));
-        appCompatEditText3.perform(replaceText("hghg"), closeSoftKeyboard());
-
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.custom_signin_button), withText("Sign in"), isDisplayed()));
         appCompatButton.perform(click());

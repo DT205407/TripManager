@@ -53,27 +53,26 @@ public class DataAdapterTrips extends Application {
     public void updateTrip(String upcomingorpast,Trip trip){
         if(upcomingorpast.equals("upcoming")){
 
-            for (Trip temp:upcomingtrips){
-                if (temp.id==trip.id){
-                    upcomingtrips.remove(temp);
+            for (int i=0;i<upcomingtrips.size();i++){
+                if (upcomingtrips.get(i).id==trip.id){
+                    upcomingtrips.set(i,trip);
                     break;
                 }
             }
-            upcomingtrips.add(trip);
         }
         else
         {
 
-            for (Trip temp:pastTrips){
-                if (temp.id==trip.id){
-                    pastTrips.remove(temp);
+            for (int i=0;i<pastTrips.size();i++){
+                if (pastTrips.get(i).id==trip.id){
+                    pastTrips.set(i,trip);
                     break;
                 }
             }
-            pastTrips.add(trip);
         }
 
     }
+
     public String getTotalTrips() {
 
         int no_of_upcoming_trips = upcomingtrips.size();
@@ -82,6 +81,7 @@ public class DataAdapterTrips extends Application {
 
         return no_of_trips;
     }
+
     public String getTotalDays() {
         long no_of_days = 0;
         for (Trip tempTrip : upcomingtrips) {
@@ -93,6 +93,7 @@ public class DataAdapterTrips extends Application {
         }
         return String.valueOf(no_of_days);
     }
+
     public String getTotalCities() {
 
         Set<List<String>> citySet = new HashSet<List<String>>();
@@ -104,9 +105,14 @@ public class DataAdapterTrips extends Application {
 
         return String.valueOf(citySet.size());
     }
-    public String getTotalDistance(){
 
-        String distance="2334 Miles";
+    public String getTotalDistance(){
+        float distance1=0;
+        for (Trip temp:pastTrips){
+            distance1+=temp.distance;
+        }
+
+        String distance=String.valueOf(distance1);
         return distance;
     }
 

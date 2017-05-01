@@ -134,6 +134,8 @@ public class TripDetails extends AppCompatActivity {
                 tempintent=new Intent(this,TripDetailsMapsActivity.class);
                 tempintent.putExtra("sourcecity",tempTrip.source);
                 tempintent.putExtra("destinationcity",tempTrip.destination);
+                tempintent.putExtra("TripId",getIntent().getIntExtra("TripId",0));
+                tempintent.putExtra("upcomingorpast",getIntent().getStringExtra("upcomingorpast"));
                 startActivity(tempintent);
                 return true;
             case R.id.alerts:
@@ -243,7 +245,7 @@ public class TripDetails extends AppCompatActivity {
                             Intent temp=new Intent(view.getContext(),TripDetails.class);
                             trip.itinerary.add(((EditText) rootView1.findViewById(R.id.edititinerary)).getText().toString());
                             ((DataAdapterTrips) getActivity().getApplication()).updateTrip(getActivity().getIntent().getStringExtra("upcomingorpast"),trip);
-                            ((DataAdapterTrips) getActivity().getApplication()).updateTripinDatabase(trip);
+                           // ((DataAdapterTrips) getActivity().getApplication()).updateTripinDatabase(trip);
                             temp.putExtra("TripId",getActivity().getIntent().getIntExtra("TripId",0));
                             temp.putExtra("mode","normal");
                             temp.putExtra("currentscreen","TripDetailsItenary");
@@ -303,7 +305,7 @@ public class TripDetails extends AppCompatActivity {
                             tempTrip.destination=((EditText) rootView2.findViewById(R.id.desinationcityedit)).getText().toString();
                             tempTrip.description=((EditText) rootView2.findViewById(R.id.descriptionedit)).getText().toString();
 
-                            switch (((Spinner)rootView2.findViewById(R.id.travelmode)).getSelectedItem().toString()){
+                            switch (((Spinner)rootView2.findViewById(R.id.travelmodeedit)).getSelectedItem().toString()){
                                 case "Bike":
                                     tempTrip.mode= Mode.bike; break;
                                 case "Car":
@@ -318,7 +320,7 @@ public class TripDetails extends AppCompatActivity {
                             tempTrip.startdate=Trip.formatDate(((EditText) rootView2.findViewById(R.id.startdateedit)).getText().toString());
                             tempTrip.enddate=Trip.formatDate(((EditText) rootView2.findViewById(R.id.enddateedit)).getText().toString());
                             ((DataAdapterTrips) getActivity().getApplication()).updateTrip(getActivity().getIntent().getStringExtra("upcomingorpast"),tempTrip);
-                            ((DataAdapterTrips) getActivity().getApplication()).updateTripinDatabase(tempTrip);
+                            //((DataAdapterTrips) getActivity().getApplication()).updateTripinDatabase(tempTrip);
 
                             Intent temp=new Intent(view.getContext(),TripDetails.class);
                             temp.putExtra("TripId",getActivity().getIntent().getIntExtra("TripId",0));
