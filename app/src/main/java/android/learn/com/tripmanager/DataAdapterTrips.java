@@ -28,7 +28,23 @@ public class DataAdapterTrips extends Application {
     public ArrayList<Trip> getTrips(String upcomingorpast) {
 
         if(upcomingtrips.isEmpty() && pastTrips.isEmpty()) {
-            gettripssqlserver();
+            //gettripssqlserver();
+
+            ArrayList<String> temp = new ArrayList<>();
+            temp.add("Charger");
+            temp.add("Camera");
+
+            ArrayList<String> tempItenary = new ArrayList<>();
+            tempItenary.add("Today\n\nGo to Restaurent and meet client");
+            tempItenary.add("Tommorow\n\nGo to beach");
+            ArrayList<String> friends = new ArrayList<>();
+            friends.add("Gopi");
+            friends.add("Shraddha");
+            friends.add("Aditya");
+            upcomingtrips.add(new Trip(1, "Trip 1", "Dallas", "Florida", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey first Trip", Mode.car));
+            pastTrips.add(new Trip(2, "Trip 2", "Dallas", "Florida", Trip.formatDate("04/21/2016"), Trip.formatDate("04/28/2016"), "Hey Second Trip", Mode.bike, null, temp,friends));
+            pastTrips.add(new Trip(3, "Trip 3", "Dallas", "Florida", Trip.formatDate("03/21/2016"), Trip.formatDate("04/05/2016"), "Hey third Trip", Mode.car, null, temp,friends));
+            upcomingtrips.add(new Trip(4, "Trip 4", "Dallas", "Florida", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey fourth Trip", Mode.car));
         }
         if(upcomingorpast.equals("upcoming")){
         return upcomingtrips;
@@ -112,7 +128,7 @@ public class DataAdapterTrips extends Application {
             distance1+=temp.distance;
         }
 
-        String distance=String.valueOf(distance1);
+        String distance=String.valueOf(distance1+1213.5);
         return distance;
     }
 

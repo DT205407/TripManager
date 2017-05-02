@@ -117,7 +117,7 @@ public class SignInActivity extends AppCompatActivity implements SmartLoginCallb
 
     @Override
     public void onLoginSuccess(SmartUser user) {
-        Toast.makeText(this, user.toString(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, user.toString(), Toast.LENGTH_SHORT).show();
         refreshLayout();
     }
 

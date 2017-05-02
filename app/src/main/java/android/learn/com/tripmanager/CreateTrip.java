@@ -72,7 +72,7 @@ public class CreateTrip extends AppCompatActivity {
         // this adds trip to trips context
         ((DataAdapterTrips) this.getApplication()).addUpcomingTrips(tempTrip);
         // this adds trip to database
-        ((DataAdapterTrips) this.getApplication()).insertTripinDatabase(tempTrip);
+        //((DataAdapterTrips) this.getApplication()).insertTripinDatabase(tempTrip);
         //myTrips.putExtra("newTrip",tempTrip);
         startActivity(myTrips);
 

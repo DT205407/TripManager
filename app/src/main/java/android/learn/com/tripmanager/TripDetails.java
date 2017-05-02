@@ -381,7 +381,7 @@ public class TripDetails extends AppCompatActivity {
                         public void onClick(View view) {
                             trip.checklist.add(((EditText) rootView3.findViewById(R.id.editchecklist)).getText().toString());
                             ((DataAdapterTrips) getActivity().getApplication()).updateTrip(getActivity().getIntent().getStringExtra("upcomingorpast"),trip);
-                            ((DataAdapterTrips) getActivity().getApplication()).updateTripinDatabase(trip);
+                            //((DataAdapterTrips) getActivity().getApplication()).updateTripinDatabase(trip);
 
                             Intent temp=new Intent(view.getContext(),TripDetails.class);
                             temp.putExtra("TripId",getActivity().getIntent().getIntExtra("TripId",0));
