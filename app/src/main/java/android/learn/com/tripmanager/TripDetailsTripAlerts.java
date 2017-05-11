@@ -108,6 +108,7 @@ public class TripDetailsTripAlerts extends AppCompatActivity {
         mChart1.setDrawHoleEnabled(true);
         mChart1.setHoleColor(Color.rgb(93,138,168));
         mChart1.setHoleRadius(80);
+        mChart1.setTransparentCircleRadius(80);
         mChart2.setDrawHoleEnabled(true);
         mChart2.setHoleColor(Color.rgb(93,138,168));
         mChart2.setHoleRadius(80);
