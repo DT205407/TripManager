@@ -44,7 +44,7 @@ public class TripDetailsFriends extends AppCompatActivity {
 
                 trip.tripFriends.add(((EditText) findViewById(R.id.addnewfriend)).getText().toString());
                 ((DataAdapterTrips) getApplication()).updateTrip(getIntent().getStringExtra("upcomingorpast"),trip);
-                ((DataAdapterTrips) getApplication()).updateTripinDatabase(trip);
+                //((DataAdapterTrips) getApplication()).updateTripinDatabase(trip);
                 Intent temp=new Intent(view.getContext(),TripDetailsFriends.class);
                 temp.putExtra("TripId",getIntent().getIntExtra("TripId",0));
                 temp.putExtra("upcomingorpast",getIntent().getStringExtra("upcomingorpast"));

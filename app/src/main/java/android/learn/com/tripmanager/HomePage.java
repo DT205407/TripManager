@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -55,6 +56,8 @@ public class HomePage extends AppCompatActivity
         if(upcomingtrips.isEmpty())
         {
             upcomingtrips=((DataAdapterTrips) this.getApplication()).getTrips("upcoming");
+
+
         }
 
 
@@ -354,8 +357,10 @@ public class HomePage extends AppCompatActivity
             tempIntent= new Intent(this, TravelHistoryStats.class);
             startActivity(tempIntent);
         }  else if (id == R.id.editProfile) {
-            tempIntent= new Intent(this, EditUserProfile.class);
-            startActivity(tempIntent);
+            /*tempIntent= new Intent(this, EditUserProfile.class);
+            startActivity(tempIntent);*/
+
+            Toast.makeText(this, "This feature is not available please check later", Toast.LENGTH_LONG).show();
 
         } else if (id == R.id.about) {
             tempIntent= new Intent(this, AboutPageTripManager.class);

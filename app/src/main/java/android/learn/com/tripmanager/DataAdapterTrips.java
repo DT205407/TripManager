@@ -41,10 +41,10 @@ public class DataAdapterTrips extends Application {
             friends.add("Gopi");
             friends.add("Shraddha");
             friends.add("Aditya");
-            upcomingtrips.add(new Trip(1, "Trip 1", "Dallas", "Florida", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey first Trip", Mode.car));
+            upcomingtrips.add(new Trip(1, "Trip 1", "Dallas", "Oakland", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey first Trip", Mode.car));
             pastTrips.add(new Trip(2, "Trip 2", "Dallas", "Florida", Trip.formatDate("04/21/2016"), Trip.formatDate("04/28/2016"), "Hey Second Trip", Mode.bike, null, temp,friends));
-            pastTrips.add(new Trip(3, "Trip 3", "Dallas", "Florida", Trip.formatDate("03/21/2016"), Trip.formatDate("04/05/2016"), "Hey third Trip", Mode.car, null, temp,friends));
-            upcomingtrips.add(new Trip(4, "Trip 4", "Dallas", "Florida", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey fourth Trip", Mode.car));
+            pastTrips.add(new Trip(3, "Trip 3", "Dallas", "Newyork", Trip.formatDate("03/21/2016"), Trip.formatDate("04/05/2016"), "Hey third Trip", Mode.car, null, temp,friends));
+            upcomingtrips.add(new Trip(4, "Trip 4", "Dallas", "San Francisco", Trip.formatDate("03/15/2018"), Trip.formatDate("03/25/2018"), "Hey fourth Trip", Mode.car));
         }
         if(upcomingorpast.equals("upcoming")){
         return upcomingtrips;

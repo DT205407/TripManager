@@ -37,10 +37,10 @@
     <string name="humidity">Humidity</string>
     <string name="wind">Wind</string>
     
-    <string name="totalTrips">Total no of trips</string>
-    <string name="totalDays">Total no of days</string>
-    <string name="totalCities">Total no of cities</string>
-    <string name="totalDistance">Total distance covered</string>
+    <string name="totalTrips">Total number of trips</string>
+    <string name="totalDays">Total number of days</string>
+    <string name="totalCities">Number of cities visited</string>
+    <string name="totalDistance">Distance covered (miles)</string>
     <string name="bike">Bike</string>
     <string name="bus">Bus</string>
     <string name="plane">Plane</string>

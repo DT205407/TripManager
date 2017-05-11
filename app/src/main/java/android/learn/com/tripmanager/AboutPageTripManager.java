@@ -33,7 +33,6 @@ public class AboutPageTripManager extends AppCompatActivity {
                 .isRTL(false)
                 .setImage(R.drawable.trip_manager_logo)
                 .addItem(new Element().setTitle("Version 1.0"))
-                .addItem(adsElement)
                 .addGroup("Connect with us")
                 .addEmail("travelmanager5933@gmail.com")
                 .addWebsite("https://github.com/DT205407/")
